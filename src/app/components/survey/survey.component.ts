@@ -28,9 +28,12 @@ export class SurveyComponent implements OnInit {
   saving = signal(false);
   savedMessage = signal('');
   submitted = signal(false);
+  step2SavedOnce = signal(false);
 
   respondentType = signal<'head' | 'representative'>('head');
   noIdCard = signal(false);
+  gender = signal<'male' | 'female'>('male');
+  hasDisability = signal<'yes' | 'no'>('no');
   idFrontFile = signal<string>('');
   idBackFile = signal<string>('');
   passportFile = signal<string>('');
@@ -85,6 +88,34 @@ export class SurveyComponent implements OnInit {
       idBackFileName: [''],
       passportNumber: [''],
       passportFileName: [''],
+      firstName: [''],
+      lastName: [''],
+      fatherName: [''],
+      motherName: [''],
+      motherMaidenName: [''],
+      dateOfBirth: [''],
+      placeOfBirth: [''],
+      city: [''],
+      gender: ['male'],
+      registrationPlace: [''],
+      registrationNumber: [''],
+      maritalStatus: [''],
+      governorate: [''],
+      district: [''],
+      townCity: [''],
+      neighborhood: [''],
+      area: [''],
+      street: [''],
+      buildingName: [''],
+      floor: [''],
+      apartment: [''],
+      nearestKnownPlace: [''],
+      mobilePhone: [''],
+      homePhone: [''],
+      email: [''],
+      householdSize: [''],
+      domesticWorkers: [''],
+      hasDisability: ['no'],
     });
 
     this.step3Form = this.fb.group({
@@ -116,7 +147,17 @@ export class SurveyComponent implements OnInit {
         consentShareData: draft.consentShareData,
       });
     }
-    if (draft.step2Data) this.step2Form.patchValue(draft.step2Data);
+    if (draft.step2Data) {
+      this.step2Form.patchValue(draft.step2Data);
+      if (draft.step2Data.respondentType) this.respondentType.set(draft.step2Data.respondentType);
+      if (draft.step2Data.noIdCard) this.noIdCard.set(draft.step2Data.noIdCard);
+      if (draft.step2Data.gender) this.gender.set(draft.step2Data.gender);
+      if (draft.step2Data.hasDisability) this.hasDisability.set(draft.step2Data.hasDisability);
+      if (draft.step2Data.idFrontFileName) this.idFrontFile.set(draft.step2Data.idFrontFileName);
+      if (draft.step2Data.idBackFileName) this.idBackFile.set(draft.step2Data.idBackFileName);
+      if (draft.step2Data.passportFileName) this.passportFile.set(draft.step2Data.passportFileName);
+      this.step2SavedOnce.set(true);
+    }
     if (draft.step3Data) this.step3Form.patchValue(draft.step3Data);
     if (draft.step4Data) this.step4Form.patchValue(draft.step4Data);
     if (draft.step5Data) this.step5Form.patchValue(draft.step5Data);
@@ -187,6 +228,40 @@ export class SurveyComponent implements OnInit {
     }
   }
 
+  saveCurrentSection() {
+    this.saving.set(true);
+    const data = this.buildFormData();
+    this.formService.saveDraftLocally(data);
+
+    if (this.isOnline()) {
+      this.formService.saveToServer(data).subscribe({
+        next: (saved) => {
+          this.formId = saved.id!;
+          data.id = saved.id;
+          this.formService.saveDraftLocally(data);
+          this.saving.set(false);
+
+          if (this.currentStep() === 2 && !this.step2SavedOnce()) {
+            this.step2SavedOnce.set(true);
+            window.location.reload();
+          } else {
+            this.savedMessage.set('تم الحفظ بنجاح');
+            setTimeout(() => this.savedMessage.set(''), 3000);
+          }
+        },
+        error: () => {
+          this.saving.set(false);
+          this.savedMessage.set('تم حفظ النموذج محلياً');
+          setTimeout(() => this.savedMessage.set(''), 3000);
+        }
+      });
+    } else {
+      this.saving.set(false);
+      this.savedMessage.set('تم حفظ النموذج محلياً. سيتم إرساله عند استعادة الاتصال.');
+      setTimeout(() => this.savedMessage.set(''), 3000);
+    }
+  }
+
   async submitForm() {
     this.saving.set(true);
     const data = this.buildFormData();
@@ -215,6 +290,16 @@ export class SurveyComponent implements OnInit {
   setRespondentType(type: 'head' | 'representative') {
     this.respondentType.set(type);
     this.step2Form.patchValue({ respondentType: type });
+  }
+
+  setGender(g: 'male' | 'female') {
+    this.gender.set(g);
+    this.step2Form.patchValue({ gender: g });
+  }
+
+  setDisability(val: 'yes' | 'no') {
+    this.hasDisability.set(val);
+    this.step2Form.patchValue({ hasDisability: val });
   }
 
   toggleNoIdCard() {
@@ -276,6 +361,7 @@ export class SurveyComponent implements OnInit {
     this.currentStep.set(1);
     this.submitted.set(false);
     this.savedMessage.set('');
+    this.step2SavedOnce.set(false);
     this.initForms();
   }
 

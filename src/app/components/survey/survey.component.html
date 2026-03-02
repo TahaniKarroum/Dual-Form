@@ -32,7 +32,12 @@
       }
     </div>
 
+    @if (savedMessage()) {
+      <div class="toast-message">{{ savedMessage() }}</div>
+    }
+
     <div class="form-content">
+
       @if (currentStep() === 1) {
         <div class="step-section">
           <div class="form-group">
@@ -81,8 +86,11 @@
         </div>
       }
 
+      <!-- STEP 2 -->
       @if (currentStep() === 2) {
         <div class="step-section" [formGroup]="step2Form">
+
+          <!-- Respondent type toggle -->
           <div class="form-group">
             <label class="field-label-required">أنا رب(ة) الأسرة أو ممثل(ة) عن رب(ة) الأسرة*</label>
             <div class="toggle-buttons">
@@ -91,6 +99,7 @@
             </div>
           </div>
 
+          <!-- Identity section -->
           <h3 class="subsection-title">معلومات عن رب(ة) الأسرة</h3>
 
           <div class="form-card">
@@ -104,7 +113,7 @@
             @if (!noIdCard()) {
               <div class="form-group">
                 <label class="field-label-required">رقم الهوية الشخصية *</label>
-                <input type="text" formControlName="idNumber" class="form-control" placeholder="" />
+                <input type="text" formControlName="idNumber" class="form-control" />
               </div>
 
               <h4 class="upload-section-title">تحميل صورة عن الهوية</h4>
@@ -144,19 +153,17 @@
             </div>
           </div>
 
+          <!-- Passport section -->
           <div class="form-card">
             <div class="form-group">
               <label>رقم جواز السفر اللبناني</label>
-              <input type="text" formControlName="passportNumber" class="form-control" placeholder="" />
+              <input type="text" formControlName="passportNumber" class="form-control" />
             </div>
-
-            <div class="upload-box">
+            <div class="form-group">
               <label>تحميل صورة عن جواز السفر اللبناني</label>
               <div class="file-upload-area">
                 <input type="file" accept="image/*" (change)="onFileSelected($event, 'passport')" id="passportInput" hidden />
-                <button type="button" class="upload-btn" (click)="passportInputEl?.click()">
-                  <label for="passportInput" class="upload-btn-label">تحميل 📤</label>
-                </button>
+                <label for="passportInput" class="upload-btn-dark">تحميل 📤</label>
                 @if (passportFile()) {
                   <span class="file-name-inline">{{ passportFile() }}</span>
                 }
@@ -164,13 +171,247 @@
             </div>
           </div>
 
-          <div class="form-navigation">
-            <button class="btn-secondary" (click)="prevStep()">السابق</button>
-            <button class="btn-primary" (click)="nextStep()">التالي</button>
+          <!-- Personal information -->
+          <h3 class="subsection-title">المعلومات الشخصية</h3>
+
+          <div class="form-card">
+            <div class="form-row-2col">
+              <div class="form-group">
+                <label class="field-label-required">الإسم الأول *</label>
+                <input type="text" formControlName="firstName" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label class="field-label-required">الشهرة *</label>
+                <input type="text" formControlName="lastName" class="form-control" />
+              </div>
+            </div>
+
+            <div class="form-row-2col">
+              <div class="form-group">
+                <label class="field-label-required">إسم الأب الأول *</label>
+                <input type="text" formControlName="fatherName" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label class="field-label-required">إسم الأم الأول *</label>
+                <input type="text" formControlName="motherName" class="form-control" />
+              </div>
+            </div>
+
+            <div class="form-row-2col">
+              <div class="form-group">
+                <label class="field-label-required">شهرة الأم قبل الزواج *</label>
+                <input type="text" formControlName="motherMaidenName" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label class="field-label-required">تاريخ الولادة *</label>
+                <div class="input-with-icon">
+                  <input type="date" formControlName="dateOfBirth" class="form-control" />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row-2col">
+              <div class="form-group">
+                <label class="field-label-required">مكان الولادة *</label>
+                <select formControlName="placeOfBirth" class="form-control">
+                  <option value="">اختر...</option>
+                  <option value="lebanon">لبنان Lebanon</option>
+                  <option value="syria">سوريا Syria</option>
+                  <option value="palestine">فلسطين Palestine</option>
+                  <option value="iraq">العراق Iraq</option>
+                  <option value="other">أخرى Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="field-label-required">المدينة *</label>
+                <input type="text" formControlName="city" class="form-control" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="field-label-required">الجنس*</label>
+              <div class="toggle-buttons">
+                <button type="button" class="toggle-btn" [class.active]="gender() === 'male'" (click)="setGender('male')">ذكر</button>
+                <button type="button" class="toggle-btn" [class.active]="gender() === 'female'" (click)="setGender('female')">أنثى</button>
+              </div>
+            </div>
+
+            <div class="form-row-2col">
+              <div class="form-group">
+                <label class="field-label-required">مكان السجل *</label>
+                <input type="text" formControlName="registrationPlace" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label class="field-label-required">رقم السجل *</label>
+                <input type="text" formControlName="registrationNumber" class="form-control" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Marital status -->
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">الوضع العائلي *</label>
+              <select formControlName="maritalStatus" class="form-control">
+                <option value="">اختر...</option>
+                <option value="never_married">لم يسبق له (لها) الزواج Never been Married</option>
+                <option value="married">متزوج(ة) Married</option>
+                <option value="divorced">مطلق(ة) Divorced</option>
+                <option value="widowed">أرمل(ة) Widowed</option>
+                <option value="separated">منفصل(ة) Separated</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Residential address -->
+          <h3 class="subsection-title">عنوان السكن</h3>
+
+          <div class="form-card">
+            <div class="form-row-2col">
+              <div class="form-group">
+                <label class="field-label-required">المحافظة *</label>
+                <select formControlName="governorate" class="form-control">
+                  <option value="">اختر...</option>
+                  <option value="beirut">بيروت Beirut</option>
+                  <option value="mount_lebanon">جبل لبنان Mount Lebanon</option>
+                  <option value="north">الشمال North</option>
+                  <option value="south">الجنوب South</option>
+                  <option value="bekaa">البقاع Bekaa</option>
+                  <option value="nabatieh">النبطية Nabatieh</option>
+                  <option value="akkar">عكار Akkar</option>
+                  <option value="baalbek_hermel">بعلبك الهرمل Baalbek-Hermel</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="field-label-required">القضاء *</label>
+                <input type="text" formControlName="district" class="form-control" />
+              </div>
+            </div>
+
+            <div class="form-row-2col">
+              <div class="form-group">
+                <label class="field-label-required">المدينة / بلدة *</label>
+                <input type="text" formControlName="townCity" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label>المحلة</label>
+                <input type="text" formControlName="neighborhood" class="form-control" />
+              </div>
+            </div>
+
+            <div class="form-row-2col">
+              <div class="form-group">
+                <label>الحي</label>
+                <input type="text" formControlName="area" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label>الشارع</label>
+                <input type="text" formControlName="street" class="form-control" />
+              </div>
+            </div>
+
+            <div class="form-row-2col">
+              <div class="form-group">
+                <label>اسم البناية</label>
+                <input type="text" formControlName="buildingName" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label>الطابق</label>
+                <input type="text" formControlName="floor" class="form-control" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>الشقة</label>
+              <input type="text" formControlName="apartment" class="form-control" />
+            </div>
+
+            <div class="info-notice">
+              <span class="info-icon">ⓘ</span>
+              <span>رقم القسم أو رقم الشقة أو موقعها في المبنى (يمين أو شمال أو...)</span>
+            </div>
+
+            <div class="form-group" style="margin-top: 16px;">
+              <label>أقرب مكان معروف</label>
+              <input type="text" formControlName="nearestKnownPlace" class="form-control" />
+            </div>
+
+            <div class="info-notice">
+              <span class="info-icon">ⓘ</span>
+              <span>لتسهيل تسليم البطاقة التمويلية</span>
+            </div>
+          </div>
+
+          <!-- Contact info -->
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">رقم الهاتف الخليوي *</label>
+              <input type="tel" formControlName="mobilePhone" class="form-control" />
+            </div>
+
+            <div class="form-group">
+              <label>رقم هاتف المنزل</label>
+              <input type="tel" formControlName="homePhone" class="form-control" />
+            </div>
+
+            <div class="form-group">
+              <label>عنوان البريد الإلكتروني</label>
+              <input type="email" formControlName="email" class="form-control" />
+            </div>
+
+            <div class="info-notice">
+              <span class="info-icon">ⓘ</span>
+              <span>للتمكن من الإتصال بأفراد الأسرة بهدف تسهيل الحصول على ايضاحات أو معلومات إضافية وتسهيل تسليم البطاقة التمويلية</span>
+            </div>
+          </div>
+
+          <!-- Family info -->
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">عدد أفراد الأسرة (بما فيها رب(ة) الأسرة) *</label>
+              <input type="number" formControlName="householdSize" class="form-control" />
+            </div>
+
+            <div class="info-notice">
+              <span class="info-icon">ⓘ</span>
+              <span>يعيش أفراد الأسرة في نفس المنزل - عدد أفراد الأسرة يشمل عدد الأولاد</span>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">عدد العمال/العاملات المنزليين حالياً *</label>
+              <input type="number" formControlName="domesticWorkers" class="form-control" />
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">يوجد في الأسرة فرد على الأقل يعاني من إعاقة حادة أو مرض مزمن*</label>
+              <div class="toggle-buttons">
+                <button type="button" class="toggle-btn" [class.active]="hasDisability() === 'yes'" (click)="setDisability('yes')">نعم</button>
+                <button type="button" class="toggle-btn" [class.active]="hasDisability() === 'no'" (click)="setDisability('no')">كلا</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Save & Next buttons -->
+          <div class="form-navigation-dual">
+            <button class="btn-save" [disabled]="saving()" (click)="saveCurrentSection()">
+              @if (saving()) {
+                <span class="spinner-small"></span>
+              }
+              حفظ
+            </button>
+            <button class="btn-next" (click)="nextStep()">
+              التالي
+              <span class="btn-arrow">‹</span>
+            </button>
           </div>
         </div>
       }
 
+      <!-- STEP 3 -->
       @if (currentStep() === 3) {
         <div class="step-section" [formGroup]="step3Form">
           <h2 class="section-title">القسم الثالث: الوضع الاقتصادي</h2>
@@ -208,13 +449,14 @@
             </select>
           </div>
 
-          <div class="form-navigation">
-            <button class="btn-secondary" (click)="prevStep()">السابق</button>
-            <button class="btn-primary" (click)="nextStep()">التالي</button>
+          <div class="form-navigation-dual">
+            <button class="btn-save" [disabled]="saving()" (click)="saveCurrentSection()">حفظ</button>
+            <button class="btn-next" (click)="nextStep()">التالي <span class="btn-arrow">‹</span></button>
           </div>
         </div>
       }
 
+      <!-- STEP 4 -->
       @if (currentStep() === 4) {
         <div class="step-section" [formGroup]="step4Form">
           <h2 class="section-title">القسم الرابع: الصحة والتعليم</h2>
@@ -252,13 +494,14 @@
             </select>
           </div>
 
-          <div class="form-navigation">
-            <button class="btn-secondary" (click)="prevStep()">السابق</button>
-            <button class="btn-primary" (click)="nextStep()">التالي</button>
+          <div class="form-navigation-dual">
+            <button class="btn-save" [disabled]="saving()" (click)="saveCurrentSection()">حفظ</button>
+            <button class="btn-next" (click)="nextStep()">التالي <span class="btn-arrow">‹</span></button>
           </div>
         </div>
       }
 
+      <!-- STEP 5 -->
       @if (currentStep() === 5) {
         <div class="step-section" [formGroup]="step5Form">
           <h2 class="section-title">القسم الخامس: المساعدات والاحتياجات</h2>
@@ -292,21 +535,12 @@
             <textarea formControlName="notes" class="form-control textarea" placeholder="ملاحظات إضافية" rows="3"></textarea>
           </div>
 
-          <div class="form-navigation">
-            <button class="btn-secondary" (click)="prevStep()">السابق</button>
+          <div class="form-navigation-dual">
+            <button class="btn-save" [disabled]="saving()" (click)="saveCurrentSection()">حفظ</button>
             <button class="btn-submit" [disabled]="saving()" (click)="submitForm()">
-              @if (saving()) {
-                <span class="spinner-small"></span>
-                جاري الإرسال...
-              } @else {
-                إرسال الاستبيان
-              }
+              إرسال الاستبيان
             </button>
           </div>
-
-          @if (savedMessage()) {
-            <div class="saved-message">{{ savedMessage() }}</div>
-          }
         </div>
       }
     </div>
