@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -10,16 +10,18 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   constructor(
     public authService: AuthService,
     private router: Router
-  ) {}
-
-  ngOnInit() {
-    if (this.authService.isAuthenticated) {
-      this.router.navigate(['/survey']);
-    }
+  ) {
+    effect(() => {
+      const loading = this.authService.loading();
+      const user = this.authService.user();
+      if (!loading && user) {
+        this.router.navigate(['/survey']);
+      }
+    });
   }
 
   onLogin() {
