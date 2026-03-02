@@ -414,39 +414,112 @@
       <!-- STEP 3 -->
       @if (currentStep() === 3) {
         <div class="step-section" [formGroup]="step3Form">
-          <h2 class="section-title">القسم الثالث: الوضع الاقتصادي</h2>
 
-          <div class="form-group">
-            <label>مصدر الدخل</label>
-            <input type="text" formControlName="incomeSource" class="form-control" placeholder="مصدر الدخل الرئيسي" />
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">الحالة الوظيفية *</label>
+              <select formControlName="employmentStatus" class="form-control">
+                <option value="">اختر...</option>
+                <option value="employed_public">موظف في القطاع العام</option>
+                <option value="employed_private">موظف في القطاع الخاص</option>
+                <option value="self_employed">عمل حر</option>
+                <option value="unemployed">عاطل عن العمل</option>
+                <option value="retired">متقاعد</option>
+                <option value="student">طالب</option>
+                <option value="homemaker">ربة منزل</option>
+                <option value="disabled">غير قادر على العمل</option>
+              </select>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label>الدخل الشهري</label>
-            <input type="text" formControlName="monthlyIncome" class="form-control" placeholder="الدخل الشهري التقريبي" />
+          <div class="form-card">
+            <p class="form-instructions">
+              يجب في الحقول التالية إدخال كافة الأجور/المداخيل في الشهرين السابقين حسب العملة. في حال لا تتقاضى أي أجر/دخل في عملة معينة، يجب إدخال رقم 'صفر' في الخانة المناسبة. لا يجب القيام بأي تحويل من عملة إلى أخرى.
+            </p>
+
+            <div class="form-group">
+              <label>مجموع الدخل في الشهرين السابقين بالفرش دولار (Fresh)</label>
+              <div class="input-with-suffix">
+                <input type="number" formControlName="incomeFreshDollar" class="form-control" />
+                <span class="input-suffix">المبلغ</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>مجموع الدخل في الشهرين السابقين باللولار (الدولار في المصارف اللبنانية)</label>
+              <div class="input-with-suffix">
+                <input type="number" formControlName="incomeLollar" class="form-control" />
+                <span class="input-suffix">المبلغ</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>مجموع الدخل في الشهرين السابقين بالليرة اللبنانيّة</label>
+              <div class="input-with-suffix">
+                <input type="number" formControlName="incomeLBP" class="form-control" />
+                <span class="input-suffix">المبلغ</span>
+              </div>
+            </div>
+
+            <div class="info-notice">
+              <span class="info-icon">ⓘ</span>
+              <span>إذا كان لديك أي دخل في العملة الأجنبية يجب تحويله إلى الفرش دولار (Fresh)</span>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label>الوضع الوظيفي</label>
-            <select formControlName="employmentStatus" class="form-control">
-              <option value="">اختر...</option>
-              <option value="employed">يعمل</option>
-              <option value="unemployed">لا يعمل</option>
-              <option value="retired">متقاعد</option>
-              <option value="self_employed">عمل حر</option>
-            </select>
+          <div class="form-card">
+            <p class="form-instructions">
+              عائدات الإستثمارات، الإيجار العائد من الممتلكات، ايصالات من المنظمات غير الحكومية/الحكومية، أرباح واردات أخرى
+            </p>
+
+            <div class="form-group">
+              <label class="field-label-required">الدخل السنوي من مصادر أخرى *</label>
+              <div class="input-with-suffix">
+                <input type="number" formControlName="otherIncomeAmount" class="form-control" />
+                <span class="input-suffix">المبلغ</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>العملة</label>
+              <select formControlName="otherIncomeCurrency" class="form-control">
+                <option value="">اختر...</option>
+                <option value="USD">دولار أمريكي (Fresh)</option>
+                <option value="LBP">ليرة لبنانية</option>
+                <option value="Lollar">لولار</option>
+              </select>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label>نوع السكن</label>
-            <select formControlName="housingType" class="form-control">
-              <option value="">اختر...</option>
-              <option value="owned">ملك</option>
-              <option value="rented">إيجار</option>
-              <option value="hosted">استضافة</option>
-              <option value="shelter">مأوى</option>
-              <option value="other">أخرى</option>
-            </select>
+          <div class="form-card">
+            <p class="form-instructions">
+              إلى المصارف أو مؤسسات تحويل الأموال الأخرى (المبالغ الدولية الواردة من 1 تموز 2020 حتى 30 حزيران 2021)
+            </p>
+
+            <div class="form-group">
+              <label class="field-label-required">التحويلات السنوية من خارج لبنان *</label>
+              <div class="input-with-suffix">
+                <input type="number" formControlName="remittanceAmount" class="form-control" />
+                <span class="input-suffix">المبلغ</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>العملة</label>
+              <select formControlName="remittanceCurrency" class="form-control">
+                <option value="">اختر...</option>
+                <option value="USD">دولار أمريكي (Fresh)</option>
+                <option value="LBP">ليرة لبنانية</option>
+                <option value="EUR">يورو</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-group">
+              <label>رقم التعريف الضريبي اللبناني</label>
+              <input type="text" formControlName="taxId" class="form-control" />
+            </div>
           </div>
 
           <div class="form-navigation-dual">

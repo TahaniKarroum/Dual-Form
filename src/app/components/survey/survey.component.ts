@@ -119,10 +119,16 @@ export class SurveyComponent implements OnInit {
     });
 
     this.step3Form = this.fb.group({
-      incomeSource: [''],
-      monthlyIncome: [''],
       employmentStatus: [''],
-      housingType: [''],
+      incomeFreshDollar: [0],
+      incomeLollar: [0],
+      incomeLBP: [0],
+      otherIncomeDescription: [''],
+      otherIncomeAmount: [0],
+      otherIncomeCurrency: [''],
+      remittanceAmount: [0],
+      remittanceCurrency: [''],
+      taxId: [''],
     });
 
     this.step4Form = this.fb.group({
