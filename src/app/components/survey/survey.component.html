@@ -827,35 +827,54 @@
       <!-- STEP 5 -->
       @if (currentStep() === 5) {
         <div class="step-section" [formGroup]="step5Form">
-          <h2 class="section-title">القسم الخامس: المساعدات والاحتياجات</h2>
 
-          <div class="form-group">
-            <label>المساعدات الحالية</label>
-            <textarea formControlName="currentAssistance" class="form-control textarea" placeholder="أذكر أي مساعدات تتلقاها حالياً" rows="3"></textarea>
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">ما هو نوع المكان الذي يتم تسجيل هذه المعلومات فيه *</label>
+              <select formControlName="placeType" class="form-control">
+                <option value="">اختر...</option>
+                <option value="home">منزل</option>
+                <option value="shelter">مأوى</option>
+                <option value="collective_center">مركز إيواء جماعي</option>
+                <option value="tent">خيمة</option>
+                <option value="workplace">مكان عمل</option>
+                <option value="other">أخرى</option>
+              </select>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label>نوع المساعدة</label>
-            <select formControlName="assistanceType" class="form-control">
-              <option value="">اختر...</option>
-              <option value="financial">مالية</option>
-              <option value="food">غذائية</option>
-              <option value="medical">طبية</option>
-              <option value="educational">تعليمية</option>
-              <option value="housing">سكنية</option>
-              <option value="multiple">متعددة</option>
-              <option value="none">لا يوجد</option>
-            </select>
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">هل انت نازح ام مضيف ؟ *</label>
+              <select formControlName="displacedOrHost" class="form-control">
+                <option value="">اختر...</option>
+                <option value="displaced">نازح</option>
+                <option value="host">مضيف</option>
+                <option value="returnee">عائد</option>
+                <option value="resident">مقيم</option>
+              </select>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label>الاحتياجات الإضافية</label>
-            <textarea formControlName="additionalNeeds" class="form-control textarea" placeholder="أذكر أي احتياجات إضافية" rows="3"></textarea>
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">العنوان السابق/ ما قبل النزوح *</label>
+              <input type="text" formControlName="previousAddress" class="form-control" />
+            </div>
           </div>
 
-          <div class="form-group">
-            <label>ملاحظات</label>
-            <textarea formControlName="notes" class="form-control textarea" placeholder="ملاحظات إضافية" rows="3"></textarea>
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">حالة المنزل الذي كنت تعيش فيه قبل النزوح *</label>
+              <select formControlName="previousHousingCondition" class="form-control">
+                <option value="">اختر...</option>
+                <option value="destroyed">مدمّر كلياً</option>
+                <option value="partially_damaged">متضرر جزئياً</option>
+                <option value="intact">سليم</option>
+                <option value="occupied">محتل</option>
+                <option value="unknown">غير معروف</option>
+              </select>
+            </div>
           </div>
 
           <div class="form-navigation-dual">

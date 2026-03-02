@@ -141,10 +141,10 @@ export class SurveyComponent implements OnInit {
     });
 
     this.step5Form = this.fb.group({
-      currentAssistance: [''],
-      assistanceType: [''],
-      additionalNeeds: [''],
-      notes: [''],
+      placeType: [''],
+      displacedOrHost: [''],
+      previousAddress: [''],
+      previousHousingCondition: [''],
     });
   }
 
