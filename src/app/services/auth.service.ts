@@ -1,5 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { timeout, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 export interface User {
   id: string;
@@ -20,7 +22,10 @@ export class AuthService {
 
   loadUser() {
     this.loading.set(true);
-    this.http.get<User>('/api/auth/user', { withCredentials: true }).subscribe({
+    this.http.get<User>('/api/auth/user').pipe(
+      timeout(5000),
+      catchError(() => of(null))
+    ).subscribe({
       next: (user) => {
         this.user.set(user);
         this.loading.set(false);

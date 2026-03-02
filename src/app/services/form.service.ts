@@ -26,17 +26,17 @@ export class FormService {
 
   saveToServer(form: FormSubmission): Observable<FormSubmission> {
     if (form.id) {
-      return this.http.put<FormSubmission>(`/api/forms/${form.id}`, form, { withCredentials: true });
+      return this.http.put<FormSubmission>(`/api/forms/${form.id}`, form);
     }
-    return this.http.post<FormSubmission>('/api/forms', form, { withCredentials: true });
+    return this.http.post<FormSubmission>('/api/forms', form);
   }
 
   getFromServer(id: number): Observable<FormSubmission> {
-    return this.http.get<FormSubmission>(`/api/forms/${id}`, { withCredentials: true });
+    return this.http.get<FormSubmission>(`/api/forms/${id}`);
   }
 
   getUserForms(): Observable<FormSubmission[]> {
-    return this.http.get<FormSubmission[]>('/api/forms', { withCredentials: true });
+    return this.http.get<FormSubmission[]>('/api/forms');
   }
 
   saveDraftLocally(form: FormSubmission): void {
