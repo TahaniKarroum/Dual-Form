@@ -356,6 +356,119 @@
   background: #244d73;
 }
 
+.btn-add-member {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 20px;
+  background: white;
+  border: 2px solid #c0392b;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'Tajawal', sans-serif;
+  color: #1a3a5c;
+  cursor: pointer;
+  direction: rtl;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+  transition: background 0.2s;
+}
+
+.btn-add-member:hover {
+  background: #f8f8f8;
+}
+
+.add-icon {
+  font-size: 22px;
+  color: #2980b9;
+}
+
+.member-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  background: white;
+}
+
+.member-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  background: #f0f4f8;
+  cursor: pointer;
+  direction: rtl;
+}
+
+.member-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a3a5c;
+}
+
+.member-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-remove-member {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-remove-member:hover {
+  background: #c0392b;
+}
+
+.expand-icon {
+  font-size: 14px;
+  color: #666;
+}
+
+.member-body {
+  padding: 20px;
+  border-top: 1px solid #eee;
+}
+
+.member-subsection {
+  font-size: 16px;
+  font-weight: 700;
+  color: #2980b9;
+  text-align: right;
+  margin: 20px 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.member-subsection:first-child {
+  margin-top: 0;
+}
+
+.disclaimer-card {
+  background: #fefefe;
+}
+
+.disclaimer-text {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #555;
+  text-align: right;
+  margin-bottom: 16px;
+}
+
 .toast-message {
   max-width: 600px;
   margin: 0 auto 16px;

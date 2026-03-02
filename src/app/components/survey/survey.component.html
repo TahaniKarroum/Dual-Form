@@ -532,39 +532,289 @@
       <!-- STEP 4 -->
       @if (currentStep() === 4) {
         <div class="step-section" [formGroup]="step4Form">
-          <h2 class="section-title">القسم الرابع: الصحة والتعليم</h2>
 
-          <div class="form-group">
-            <label>الحالات الصحية</label>
-            <textarea formControlName="healthConditions" class="form-control textarea" placeholder="أذكر أي حالات صحية مزمنة" rows="3"></textarea>
+          <h3 class="subsection-title">أضف معلومات جميع أفراد أسرتك</h3>
+
+          <p class="form-instructions">
+            يرجى تعبئة المعلومات المطلوبة بدقة والتأكد من صحتها لجميع أفراد الأسرة. والأسرة هي عبارة عن فرد أو مجموعة أفراد، مع أو بدون رابط دم، تقيم في مسكن واحد ودائم تتشارك الأعباء المعيشية. قد تستعمل هذه المعلومات كما وردت في برامج مساعدات اجتماعية أخرى.
+          </p>
+
+          <!-- Add member button -->
+          <button type="button" class="btn-add-member" (click)="addMember()">
+            <span class="add-icon">⊕</span>
+            إضافة فرد جديد
+          </button>
+
+          <!-- Members list -->
+          <div formArrayName="members">
+          @for (member of membersArray.controls; track $index) {
+            <div class="member-card">
+              <div class="member-header" (click)="toggleMember($index)">
+                <span class="member-title">
+                  @if (getMemberGroup($index).value.firstName) {
+                    فرد {{ $index + 1 }}: {{ getMemberGroup($index).value.firstName }} {{ getMemberGroup($index).value.lastName }}
+                  } @else {
+                    فرد {{ $index + 1 }}
+                  }
+                </span>
+                <div class="member-header-actions">
+                  <button type="button" class="btn-remove-member" (click)="removeMember($index); $event.stopPropagation()">✕</button>
+                  <span class="expand-icon">{{ expandedMemberIndex() === $index ? '▲' : '▼' }}</span>
+                </div>
+              </div>
+
+              @if (expandedMemberIndex() === $index) {
+                <div class="member-body" [formGroupName]="$index">
+
+                  <h4 class="member-subsection">معلومات الهوية</h4>
+
+                  <div class="form-group">
+                    <label class="checkbox-label-inline">
+                      <input type="checkbox" [checked]="getMemberGroup($index).value.noIdCard" (change)="toggleMemberNoIdCard($index)" />
+                      <span>لا يوجد بطاقة الهوية</span>
+                    </label>
+                  </div>
+
+                  @if (!getMemberGroup($index).value.noIdCard) {
+                    <div class="form-group">
+                      <label class="field-label-required">رقم الهوية الشخصية *</label>
+                      <input type="text" formControlName="idNumber" class="form-control" />
+                    </div>
+
+                    <div class="upload-box">
+                      <label class="field-label-required">تحميل الصفحة الأمامية للهوية *</label>
+                      <div class="file-upload-area">
+                        <input type="file" accept="image/*" (change)="onMemberFileSelected($event, $index, 'idFront')" [id]="'memberIdFront' + $index" hidden />
+                        <label [for]="'memberIdFront' + $index" class="file-upload-label">
+                          @if (getMemberGroup($index).value.idFrontFileName) {
+                            <span class="file-name">{{ getMemberGroup($index).value.idFrontFileName }}</span>
+                          } @else {
+                            <span class="file-placeholder">اختر ملف...</span>
+                          }
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="upload-box">
+                      <label class="field-label-required">تحميل الصفحة الخلفية للهوية *</label>
+                      <div class="file-upload-area">
+                        <input type="file" accept="image/*" (change)="onMemberFileSelected($event, $index, 'idBack')" [id]="'memberIdBack' + $index" hidden />
+                        <label [for]="'memberIdBack' + $index" class="file-upload-label">
+                          @if (getMemberGroup($index).value.idBackFileName) {
+                            <span class="file-name">{{ getMemberGroup($index).value.idBackFileName }}</span>
+                          } @else {
+                            <span class="file-placeholder">اختر ملف...</span>
+                          }
+                        </label>
+                      </div>
+                    </div>
+                  }
+
+                  <div class="form-group">
+                    <label>رقم جواز السفر اللبناني</label>
+                    <input type="text" formControlName="passportNumber" class="form-control" />
+                  </div>
+
+                  <h4 class="member-subsection">المعلومات الشخصية</h4>
+
+                  <div class="form-row-2col">
+                    <div class="form-group">
+                      <label class="field-label-required">الإسم الأول *</label>
+                      <input type="text" formControlName="firstName" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label class="field-label-required">الشهرة *</label>
+                      <input type="text" formControlName="lastName" class="form-control" />
+                    </div>
+                  </div>
+
+                  <div class="form-row-2col">
+                    <div class="form-group">
+                      <label class="field-label-required">إسم الأب الأول *</label>
+                      <input type="text" formControlName="fatherName" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label class="field-label-required">إسم الأم الأول *</label>
+                      <input type="text" formControlName="motherName" class="form-control" />
+                    </div>
+                  </div>
+
+                  <div class="form-row-2col">
+                    <div class="form-group">
+                      <label class="field-label-required">شهرة الأم قبل الزواج *</label>
+                      <input type="text" formControlName="motherMaidenName" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label class="field-label-required">تاريخ الولادة *</label>
+                      <input type="date" formControlName="dateOfBirth" class="form-control" />
+                    </div>
+                  </div>
+
+                  <div class="form-row-2col">
+                    <div class="form-group">
+                      <label class="field-label-required">مكان الولادة *</label>
+                      <select formControlName="placeOfBirth" class="form-control">
+                        <option value="">اختر...</option>
+                        <option value="lebanon">لبنان Lebanon</option>
+                        <option value="syria">سوريا Syria</option>
+                        <option value="palestine">فلسطين Palestine</option>
+                        <option value="iraq">العراق Iraq</option>
+                        <option value="other">أخرى Other</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="field-label-required">المدينة *</label>
+                      <input type="text" formControlName="city" class="form-control" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="field-label-required">الجنس *</label>
+                    <div class="toggle-buttons">
+                      <button type="button" class="toggle-btn" [class.active]="getMemberGroup($index).value.gender === 'male'" (click)="setMemberGender($index, 'male')">ذكر</button>
+                      <button type="button" class="toggle-btn" [class.active]="getMemberGroup($index).value.gender === 'female'" (click)="setMemberGender($index, 'female')">أنثى</button>
+                    </div>
+                  </div>
+
+                  <div class="form-row-2col">
+                    <div class="form-group">
+                      <label class="field-label-required">مكان السجل *</label>
+                      <input type="text" formControlName="registrationPlace" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label class="field-label-required">رقم السجل *</label>
+                      <input type="text" formControlName="registrationNumber" class="form-control" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="field-label-required">الوضع العائلي *</label>
+                    <select formControlName="maritalStatus" class="form-control">
+                      <option value="">اختر...</option>
+                      <option value="never_married">لم يسبق له (لها) الزواج</option>
+                      <option value="married">متزوج(ة)</option>
+                      <option value="divorced">مطلق(ة)</option>
+                      <option value="widowed">أرمل(ة)</option>
+                      <option value="separated">منفصل(ة)</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="field-label-required">صلة القرابة برب(ة) الأسرة *</label>
+                    <select formControlName="relationToHead" class="form-control">
+                      <option value="">اختر...</option>
+                      <option value="spouse">زوج/زوجة</option>
+                      <option value="son">ابن</option>
+                      <option value="daughter">ابنة</option>
+                      <option value="father">أب</option>
+                      <option value="mother">أم</option>
+                      <option value="brother">أخ</option>
+                      <option value="sister">أخت</option>
+                      <option value="grandchild">حفيد/حفيدة</option>
+                      <option value="other_relative">قريب آخر</option>
+                      <option value="non_relative">غير قريب</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label>رقم الهاتف الخليوي</label>
+                    <input type="tel" formControlName="mobilePhone" class="form-control" />
+                  </div>
+
+                  <h4 class="member-subsection">المعلومات الاقتصادية</h4>
+
+                  <div class="form-group">
+                    <label class="field-label-required">الحالة الوظيفية *</label>
+                    <select formControlName="employmentStatus" class="form-control">
+                      <option value="">اختر...</option>
+                      <option value="employed_public">موظف في القطاع العام</option>
+                      <option value="employed_private">موظف في القطاع الخاص</option>
+                      <option value="self_employed">عمل حر</option>
+                      <option value="unemployed">عاطل عن العمل</option>
+                      <option value="retired">متقاعد</option>
+                      <option value="student">طالب</option>
+                      <option value="homemaker">ربة منزل</option>
+                      <option value="disabled">غير قادر على العمل</option>
+                      <option value="minor">قاصر</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label>مجموع الدخل بالفرش دولار (Fresh)</label>
+                    <input type="number" formControlName="incomeFreshDollar" class="form-control" />
+                  </div>
+
+                  <div class="form-group">
+                    <label>مجموع الدخل باللولار</label>
+                    <input type="number" formControlName="incomeLollar" class="form-control" />
+                  </div>
+
+                  <div class="form-group">
+                    <label>مجموع الدخل بالليرة اللبنانيّة</label>
+                    <input type="number" formControlName="incomeLBP" class="form-control" />
+                  </div>
+
+                  <div class="form-group">
+                    <label>الدخل السنوي من مصادر أخرى</label>
+                    <input type="number" formControlName="otherIncomeAmount" class="form-control" />
+                  </div>
+
+                  <div class="form-group">
+                    <label>العملة</label>
+                    <select formControlName="otherIncomeCurrency" class="form-control">
+                      <option value="">اختر...</option>
+                      <option value="USD">دولار أمريكي (Fresh)</option>
+                      <option value="LBP">ليرة لبنانية</option>
+                      <option value="Lollar">لولار</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label>التحويلات السنوية من خارج لبنان</label>
+                    <input type="number" formControlName="remittanceAmount" class="form-control" />
+                  </div>
+
+                  <div class="form-group">
+                    <label>العملة</label>
+                    <select formControlName="remittanceCurrency" class="form-control">
+                      <option value="">اختر...</option>
+                      <option value="USD">دولار أمريكي (Fresh)</option>
+                      <option value="LBP">ليرة لبنانية</option>
+                      <option value="EUR">يورو</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label>رقم التعريف الضريبي اللبناني</label>
+                    <input type="text" formControlName="taxId" class="form-control" />
+                  </div>
+
+                </div>
+              }
+            </div>
+          }
           </div>
 
-          <div class="form-group">
-            <label>الإعاقات</label>
-            <textarea formControlName="disabilities" class="form-control textarea" placeholder="أذكر أي إعاقات إن وجدت" rows="3"></textarea>
+          <!-- All live in Lebanon toggle -->
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">كل أفراد هذه الأسرة يعيشون في نفس المنزل في لبنان:*</label>
+              <div class="toggle-buttons">
+                <button type="button" class="toggle-btn" [class.active]="allLiveInLebanon() === 'yes'" (click)="setAllLiveInLebanon('yes')">نعم</button>
+                <button type="button" class="toggle-btn" [class.active]="allLiveInLebanon() === 'no'" (click)="setAllLiveInLebanon('no')">كلا</button>
+              </div>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label>المستوى التعليمي</label>
-            <select formControlName="educationLevel" class="form-control">
-              <option value="">اختر...</option>
-              <option value="none">لا يوجد</option>
-              <option value="primary">ابتدائي</option>
-              <option value="intermediate">متوسط</option>
-              <option value="secondary">ثانوي</option>
-              <option value="university">جامعي</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label>التسجيل المدرسي (للأطفال)</label>
-            <select formControlName="schoolEnrollment" class="form-control">
-              <option value="">اختر...</option>
-              <option value="all_enrolled">جميعهم مسجلون</option>
-              <option value="some_enrolled">بعضهم مسجل</option>
-              <option value="none_enrolled">لا أحد مسجل</option>
-              <option value="no_children">لا يوجد أطفال</option>
-            </select>
+          <!-- Legal disclaimer -->
+          <div class="form-card disclaimer-card">
+            <p class="disclaimer-text">
+              ملاحظة: في حال ثبت تقديم المستفيد لمعلومات خاطئة أو مضللة، يُلغى الطلب ويلتزم المستفيد بإعادة ضعف المبالغ التي تقاضاها، مع ما يترتّب على ذلك من تبعات ومسؤوليات قانونية بعد إحالته أمام المراجع القضائية المختصة.
+            </p>
+            <label class="checkbox-label">
+              <input type="checkbox" [checked]="agreeTerms()" (change)="toggleAgreeTerms()" />
+              <span class="checkbox-text">أوافق على الشروط المذكورة أعلاه</span>
+            </label>
           </div>
 
           <div class="form-navigation-dual">

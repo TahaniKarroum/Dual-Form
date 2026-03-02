@@ -1,6 +1,6 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { FormService, FormSubmission } from '../../services/form.service';
@@ -37,6 +37,9 @@ export class SurveyComponent implements OnInit {
   idFrontFile = signal<string>('');
   idBackFile = signal<string>('');
   passportFile = signal<string>('');
+  allLiveInLebanon = signal<'yes' | 'no'>('yes');
+  agreeTerms = signal(false);
+  expandedMemberIndex = signal<number | null>(null);
 
   swName = computed(() => {
     const user = this.authService.user();
@@ -132,10 +135,9 @@ export class SurveyComponent implements OnInit {
     });
 
     this.step4Form = this.fb.group({
-      healthConditions: [''],
-      disabilities: [''],
-      educationLevel: [''],
-      schoolEnrollment: [''],
+      members: this.fb.array([]),
+      allLiveInLebanon: ['yes'],
+      agreeTerms: [false],
     });
 
     this.step5Form = this.fb.group({
@@ -144,6 +146,106 @@ export class SurveyComponent implements OnInit {
       additionalNeeds: [''],
       notes: [''],
     });
+  }
+
+  get membersArray(): FormArray {
+    return this.step4Form.get('members') as FormArray;
+  }
+
+  private createMemberGroup(): FormGroup {
+    return this.fb.group({
+      noIdCard: [false],
+      idNumber: [''],
+      idFrontFileName: [''],
+      idBackFileName: [''],
+      passportNumber: [''],
+      passportFileName: [''],
+      firstName: [''],
+      lastName: [''],
+      fatherName: [''],
+      motherName: [''],
+      motherMaidenName: [''],
+      dateOfBirth: [''],
+      placeOfBirth: [''],
+      city: [''],
+      gender: ['male'],
+      registrationPlace: [''],
+      registrationNumber: [''],
+      maritalStatus: [''],
+      relationToHead: [''],
+      mobilePhone: [''],
+      employmentStatus: [''],
+      incomeFreshDollar: [0],
+      incomeLollar: [0],
+      incomeLBP: [0],
+      otherIncomeAmount: [0],
+      otherIncomeCurrency: [''],
+      remittanceAmount: [0],
+      remittanceCurrency: [''],
+      taxId: [''],
+    });
+  }
+
+  addMember() {
+    this.membersArray.push(this.createMemberGroup());
+    this.expandedMemberIndex.set(this.membersArray.length - 1);
+  }
+
+  removeMember(index: number) {
+    this.membersArray.removeAt(index);
+    if (this.expandedMemberIndex() === index) {
+      this.expandedMemberIndex.set(null);
+    }
+  }
+
+  toggleMember(index: number) {
+    this.expandedMemberIndex.set(this.expandedMemberIndex() === index ? null : index);
+  }
+
+  getMemberGroup(index: number): FormGroup {
+    return this.membersArray.at(index) as FormGroup;
+  }
+
+  setMemberGender(index: number, g: 'male' | 'female') {
+    this.getMemberGroup(index).patchValue({ gender: g });
+  }
+
+  toggleMemberNoIdCard(index: number) {
+    const member = this.getMemberGroup(index);
+    const current = member.value.noIdCard;
+    member.patchValue({ noIdCard: !current });
+    if (!current) {
+      member.patchValue({ idNumber: '', idFrontFileName: '', idBackFileName: '' });
+    }
+  }
+
+  onMemberFileSelected(event: Event, index: number, field: 'idFront' | 'idBack' | 'passport') {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const fileName = input.files[0].name;
+      const member = this.getMemberGroup(index);
+      switch (field) {
+        case 'idFront':
+          member.patchValue({ idFrontFileName: fileName });
+          break;
+        case 'idBack':
+          member.patchValue({ idBackFileName: fileName });
+          break;
+        case 'passport':
+          member.patchValue({ passportFileName: fileName });
+          break;
+      }
+    }
+  }
+
+  setAllLiveInLebanon(val: 'yes' | 'no') {
+    this.allLiveInLebanon.set(val);
+    this.step4Form.patchValue({ allLiveInLebanon: val });
+  }
+
+  toggleAgreeTerms() {
+    this.agreeTerms.set(!this.agreeTerms());
+    this.step4Form.patchValue({ agreeTerms: this.agreeTerms() });
   }
 
   private restoreFromDraft(draft: FormSubmission) {
@@ -165,7 +267,23 @@ export class SurveyComponent implements OnInit {
       this.step2SavedOnce.set(true);
     }
     if (draft.step3Data) this.step3Form.patchValue(draft.step3Data);
-    if (draft.step4Data) this.step4Form.patchValue(draft.step4Data);
+    if (draft.step4Data) {
+      if (draft.step4Data.allLiveInLebanon) {
+        this.allLiveInLebanon.set(draft.step4Data.allLiveInLebanon);
+        this.step4Form.patchValue({ allLiveInLebanon: draft.step4Data.allLiveInLebanon });
+      }
+      if (draft.step4Data.agreeTerms) {
+        this.agreeTerms.set(draft.step4Data.agreeTerms);
+        this.step4Form.patchValue({ agreeTerms: draft.step4Data.agreeTerms });
+      }
+      if (draft.step4Data.members && Array.isArray(draft.step4Data.members)) {
+        draft.step4Data.members.forEach((m: any) => {
+          const memberGroup = this.createMemberGroup();
+          memberGroup.patchValue(m);
+          this.membersArray.push(memberGroup);
+        });
+      }
+    }
     if (draft.step5Data) this.step5Form.patchValue(draft.step5Data);
     if (draft.currentStep) this.currentStep.set(draft.currentStep);
     if (draft.id) this.formId = draft.id;
@@ -212,7 +330,11 @@ export class SurveyComponent implements OnInit {
       currentStep: this.currentStep(),
       step2Data: this.step2Form.value,
       step3Data: this.step3Form.value,
-      step4Data: this.step4Form.value,
+      step4Data: {
+        members: this.membersArray.value,
+        allLiveInLebanon: this.step4Form.value.allLiveInLebanon,
+        agreeTerms: this.step4Form.value.agreeTerms,
+      },
       step5Data: this.step5Form.value,
       status: 'draft',
     };
@@ -368,6 +490,9 @@ export class SurveyComponent implements OnInit {
     this.submitted.set(false);
     this.savedMessage.set('');
     this.step2SavedOnce.set(false);
+    this.expandedMemberIndex.set(null);
+    this.allLiveInLebanon.set('yes');
+    this.agreeTerms.set(false);
     this.initForms();
   }
 
