@@ -61,7 +61,7 @@
   padding: 28px 20px;
   max-width: 600px;
   margin: 0 auto;
-  direction: ltr;
+  direction: rtl;
 }
 
 .step-item {
