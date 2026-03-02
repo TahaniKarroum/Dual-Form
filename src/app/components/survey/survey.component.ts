@@ -29,6 +29,12 @@ export class SurveyComponent implements OnInit {
   savedMessage = signal('');
   submitted = signal(false);
 
+  respondentType = signal<'head' | 'representative'>('head');
+  noIdCard = signal(false);
+  idFrontFile = signal<string>('');
+  idBackFile = signal<string>('');
+  passportFile = signal<string>('');
+
   swName = computed(() => {
     const user = this.authService.user();
     if (!user) return '';
@@ -72,11 +78,13 @@ export class SurveyComponent implements OnInit {
     });
 
     this.step2Form = this.fb.group({
-      householdSize: [''],
-      headOfHousehold: [''],
-      phoneNumber: [''],
-      address: [''],
-      area: [''],
+      respondentType: ['head'],
+      noIdCard: [false],
+      idNumber: [''],
+      idFrontFileName: [''],
+      idBackFileName: [''],
+      passportNumber: [''],
+      passportFileName: [''],
     });
 
     this.step3Form = this.fb.group({
@@ -201,6 +209,42 @@ export class SurveyComponent implements OnInit {
       this.formService.saveDraftLocally(data);
       this.saving.set(false);
       this.savedMessage.set('تم حفظ النموذج محلياً. سيتم إرساله عند استعادة الاتصال.');
+    }
+  }
+
+  setRespondentType(type: 'head' | 'representative') {
+    this.respondentType.set(type);
+    this.step2Form.patchValue({ respondentType: type });
+  }
+
+  toggleNoIdCard() {
+    this.noIdCard.set(!this.noIdCard());
+    this.step2Form.patchValue({ noIdCard: this.noIdCard() });
+    if (this.noIdCard()) {
+      this.step2Form.patchValue({ idNumber: '', idFrontFileName: '', idBackFileName: '' });
+      this.idFrontFile.set('');
+      this.idBackFile.set('');
+    }
+  }
+
+  onFileSelected(event: Event, field: 'idFront' | 'idBack' | 'passport') {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const fileName = input.files[0].name;
+      switch (field) {
+        case 'idFront':
+          this.idFrontFile.set(fileName);
+          this.step2Form.patchValue({ idFrontFileName: fileName });
+          break;
+        case 'idBack':
+          this.idBackFile.set(fileName);
+          this.step2Form.patchValue({ idBackFileName: fileName });
+          break;
+        case 'passport':
+          this.passportFile.set(fileName);
+          this.step2Form.patchValue({ passportFileName: fileName });
+          break;
+      }
     }
   }
 

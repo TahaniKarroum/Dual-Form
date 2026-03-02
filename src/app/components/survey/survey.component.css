@@ -400,6 +400,167 @@
   margin-bottom: 24px;
 }
 
+.toggle-buttons {
+  display: flex;
+  gap: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #ccc;
+}
+
+.toggle-btn {
+  flex: 1;
+  padding: 12px 20px;
+  border: none;
+  background: white;
+  color: #333;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Tajawal', sans-serif;
+  transition: all 0.2s;
+}
+
+.toggle-btn.active {
+  background: #d6e4f0;
+  color: #1a3a5c;
+  border: 2px solid #1a3a5c;
+}
+
+.toggle-btn:not(.active):hover {
+  background: #f0f4f8;
+}
+
+.subsection-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1a3a5c;
+  margin: 24px 0 16px;
+}
+
+.form-card {
+  background: #fafafa;
+  border: 1px solid #e8e8e8;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.field-label-required {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 6px;
+}
+
+.checkbox-label-inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  direction: rtl;
+}
+
+.checkbox-label-inline input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #1a3a5c;
+}
+
+.upload-section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a3a5c;
+  margin: 20px 0 12px;
+}
+
+.upload-box {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 14px;
+  background: white;
+}
+
+.file-upload-area {
+  margin-top: 8px;
+}
+
+.file-upload-label {
+  display: block;
+  padding: 12px;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  color: #888;
+  font-size: 14px;
+}
+
+.file-upload-label:hover {
+  border-color: #1a3a5c;
+  background: #f8fafc;
+}
+
+.file-name {
+  color: #1a3a5c;
+  font-weight: 600;
+}
+
+.file-placeholder {
+  color: #aaa;
+}
+
+.info-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 14px;
+  background: #fff8e1;
+  border: 1px solid #ffe082;
+  border-radius: 8px;
+  margin-top: 16px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #5d4037;
+}
+
+.info-notice .info-icon {
+  color: #1a3a5c;
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.upload-btn {
+  background: #1a3a5c;
+  color: white;
+  border: none;
+  padding: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'Tajawal', sans-serif;
+  overflow: hidden;
+}
+
+.upload-btn-label {
+  display: block;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.file-name-inline {
+  margin-right: 12px;
+  font-size: 13px;
+  color: #666;
+}
+
 @media (max-width: 600px) {
   .step-section {
     padding: 20px 16px;
@@ -420,5 +581,9 @@
   .btn-primary, .btn-secondary, .btn-submit {
     width: 100%;
     justify-content: center;
+  }
+
+  .toggle-buttons {
+    flex-direction: column;
   }
 }

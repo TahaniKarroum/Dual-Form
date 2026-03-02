@@ -83,31 +83,85 @@
 
       @if (currentStep() === 2) {
         <div class="step-section" [formGroup]="step2Form">
-          <h2 class="section-title">القسم الثاني: بيانات الأسرة</h2>
-
           <div class="form-group">
-            <label>عدد أفراد الأسرة</label>
-            <input type="number" formControlName="householdSize" class="form-control" placeholder="أدخل العدد" />
+            <label class="field-label-required">أنا رب(ة) الأسرة أو ممثل(ة) عن رب(ة) الأسرة*</label>
+            <div class="toggle-buttons">
+              <button type="button" class="toggle-btn" [class.active]="respondentType() === 'head'" (click)="setRespondentType('head')">رب(ة) الأسرة</button>
+              <button type="button" class="toggle-btn" [class.active]="respondentType() === 'representative'" (click)="setRespondentType('representative')">ممثل(ة)</button>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label>رب الأسرة</label>
-            <input type="text" formControlName="headOfHousehold" class="form-control" placeholder="اسم رب الأسرة" />
+          <h3 class="subsection-title">معلومات عن رب(ة) الأسرة</h3>
+
+          <div class="form-card">
+            <div class="form-group">
+              <label class="checkbox-label-inline">
+                <input type="checkbox" [checked]="noIdCard()" (change)="toggleNoIdCard()" />
+                <span>لا يوجد بطاقة الهوية</span>
+              </label>
+            </div>
+
+            @if (!noIdCard()) {
+              <div class="form-group">
+                <label class="field-label-required">رقم الهوية الشخصية *</label>
+                <input type="text" formControlName="idNumber" class="form-control" placeholder="" />
+              </div>
+
+              <h4 class="upload-section-title">تحميل صورة عن الهوية</h4>
+
+              <div class="upload-box">
+                <label class="field-label-required">تحميل الصفحة الأمامية للهوية التي تحتوي على الصورة الشخصية والأرزة*</label>
+                <div class="file-upload-area">
+                  <input type="file" accept="image/*" (change)="onFileSelected($event, 'idFront')" id="idFrontInput" hidden />
+                  <label for="idFrontInput" class="file-upload-label">
+                    @if (idFrontFile()) {
+                      <span class="file-name">{{ idFrontFile() }}</span>
+                    } @else {
+                      <span class="file-placeholder">اختر ملف...</span>
+                    }
+                  </label>
+                </div>
+              </div>
+
+              <div class="upload-box">
+                <label class="field-label-required">تحميل الصفحة الخلفية للهوية التي تحتوي على الرمز الشريطي*</label>
+                <div class="file-upload-area">
+                  <input type="file" accept="image/*" (change)="onFileSelected($event, 'idBack')" id="idBackInput" hidden />
+                  <label for="idBackInput" class="file-upload-label">
+                    @if (idBackFile()) {
+                      <span class="file-name">{{ idBackFile() }}</span>
+                    } @else {
+                      <span class="file-placeholder">اختر ملف...</span>
+                    }
+                  </label>
+                </div>
+              </div>
+            }
+
+            <div class="info-notice">
+              <span class="info-icon">ⓘ</span>
+              <span>إذا لم يكن لدى أي فرد من أفراد الأسرة بطاقة هوية، فعليه الحصول عليها في أقرب وقت ممكن وتحميلها عند توفرها. سيحصل على الدعم أفراد الأسرة الذين لديهم بطاقة هوية فقط</span>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label>رقم الهاتف</label>
-            <input type="tel" formControlName="phoneNumber" class="form-control" placeholder="رقم الهاتف" />
-          </div>
+          <div class="form-card">
+            <div class="form-group">
+              <label>رقم جواز السفر اللبناني</label>
+              <input type="text" formControlName="passportNumber" class="form-control" placeholder="" />
+            </div>
 
-          <div class="form-group">
-            <label>العنوان</label>
-            <input type="text" formControlName="address" class="form-control" placeholder="العنوان الحالي" />
-          </div>
-
-          <div class="form-group">
-            <label>المنطقة</label>
-            <input type="text" formControlName="area" class="form-control" placeholder="المنطقة / القضاء" />
+            <div class="upload-box">
+              <label>تحميل صورة عن جواز السفر اللبناني</label>
+              <div class="file-upload-area">
+                <input type="file" accept="image/*" (change)="onFileSelected($event, 'passport')" id="passportInput" hidden />
+                <button type="button" class="upload-btn" (click)="passportInputEl?.click()">
+                  <label for="passportInput" class="upload-btn-label">تحميل 📤</label>
+                </button>
+                @if (passportFile()) {
+                  <span class="file-name-inline">{{ passportFile() }}</span>
+                }
+              </div>
+            </div>
           </div>
 
           <div class="form-navigation">
