@@ -41,6 +41,64 @@ export class SurveyComponent implements OnInit {
   agreeTerms = signal(false);
   expandedMemberIndex = signal<number | null>(null);
 
+  districtsMap: Record<string, { value: string; label: string }[]> = {
+    beirut: [
+      { value: 'beirut', label: 'بيروت Beirut' },
+    ],
+    mount_lebanon: [
+      { value: 'baabda', label: 'بعبدا Baabda' },
+      { value: 'aley', label: 'عاليه Aley' },
+      { value: 'chouf', label: 'الشوف Chouf' },
+      { value: 'keserwan', label: 'كسروان Keserwan' },
+      { value: 'metn', label: 'المتن Metn' },
+      { value: 'jbeil', label: 'جبيل Jbeil' },
+    ],
+    north: [
+      { value: 'tripoli', label: 'طرابلس Tripoli' },
+      { value: 'minieh_dennie', label: 'المنية الضنية El Minieh-Dennie' },
+      { value: 'zgharta', label: 'زغرتا Zgharta' },
+      { value: 'koura', label: 'الكورة Koura' },
+      { value: 'bcharre', label: 'بشري Bcharre' },
+      { value: 'batroun', label: 'البترون Batroun' },
+    ],
+    south: [
+      { value: 'saida', label: 'صيدا Saida' },
+      { value: 'tyre', label: 'صور Tyre' },
+      { value: 'jezzine', label: 'جزين Jezzine' },
+    ],
+    bekaa: [
+      { value: 'zahle', label: 'زحلة Zahle' },
+      { value: 'west_bekaa', label: 'البقاع الغربي West Bekaa' },
+      { value: 'rashaya', label: 'راشيا Rashaya' },
+    ],
+    nabatieh: [
+      { value: 'nabatieh', label: 'النبطية Nabatieh' },
+      { value: 'hasbaya', label: 'حاصبيا Hasbaya' },
+      { value: 'marjayoun', label: 'مرجعيون Marjayoun' },
+      { value: 'bent_jbeil', label: 'بنت جبيل Bent Jbeil' },
+    ],
+    akkar: [
+      { value: 'akkar', label: 'عكار Akkar' },
+    ],
+    baalbek_hermel: [
+      { value: 'baalbek', label: 'بعلبك Baalbek' },
+      { value: 'hermel', label: 'الهرمل Hermel' },
+    ],
+  };
+
+  availableDistricts = computed(() => {
+    const gov = this.step2Form?.get('governorate')?.value;
+    return this.districtsMap[gov] || [];
+  });
+
+  getDistrictsForGovernorate(gov: string): { value: string; label: string }[] {
+    return this.districtsMap[gov] || [];
+  }
+
+  onGovernorateChange() {
+    this.step2Form.patchValue({ district: '' });
+  }
+
   swName = computed(() => {
     const user = this.authService.user();
     if (!user) return '';
