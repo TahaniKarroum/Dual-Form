@@ -1,0 +1,260 @@
+<div class="survey-container">
+  <header class="survey-header">
+    <div class="header-content">
+      <h1>وزارة الشؤون الاجتماعية</h1>
+      <div class="header-actions">
+        @if (!isOnline()) {
+          <span class="offline-badge">غير متصل</span>
+        }
+        <button class="logout-btn" (click)="onLogout()">تسجيل الخروج</button>
+      </div>
+    </div>
+  </header>
+
+  @if (submitted()) {
+    <div class="success-container">
+      <div class="success-card">
+        <div class="success-icon">✓</div>
+        <h2>تم إرسال الاستبيان بنجاح</h2>
+        <p>شكراً لك. تم حفظ البيانات بنجاح.</p>
+        <button class="btn-primary" (click)="startNewForm()">استبيان جديد</button>
+      </div>
+    </div>
+  } @else {
+    <div class="stepper">
+      @for (step of steps; track step) {
+        <div class="step-item" [class.active]="currentStep() === step" [class.completed]="currentStep() > step" (click)="goToStep(step)">
+          <div class="step-circle">{{ step }}</div>
+        </div>
+        @if (step < totalSteps) {
+          <div class="step-line" [class.completed]="currentStep() > step"></div>
+        }
+      }
+    </div>
+
+    <div class="form-content">
+      @if (currentStep() === 1) {
+        <div class="step-section">
+          <div class="form-group">
+            <label>تاريخ المقابلة</label>
+            <div class="form-row">
+              <span class="date-icon">📅</span>
+              <input type="text" [value]="interviewDate()" readonly class="form-control readonly" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>إسم العامل الإجتماعي</label>
+            <input type="text" [value]="swName()" readonly class="form-control readonly" />
+          </div>
+
+          <div class="form-group">
+            <label>الإسم الكامل للمشرف الميداني من وزارة الشؤون</label>
+            <input type="text" value="" readonly class="form-control readonly" placeholder="يتم تعبئته تلقائياً" />
+          </div>
+
+          <div class="consent-section">
+            <p class="consent-text">
+              أسعى وأعمل في وزارة الشؤون الاجتماعية نود جمع بعض البيانات الشخصية عنك وعن أفراد عائلتك بهدف إدراجك في برنامج المساعدة الذي تقدمه للأسر النازحة. نحن ملتزمون بتوضيح لك أن مشاركة بياناتك طوعية وعدم ذلك لن يؤثر على إمكانية الحصول على المساعدة التي قد تقدمها وزارة الشؤون الاجتماعية لاحقاً. كما أنه من المتعين أن نوضح أن جميع المعلومات التي ستشاركها معنا ستكون سرية تماماً وستحفظ مجموعة بشكل آمن. من حق الاطلاع عليها مقصور فقط على معتمدي البرنامج والمنظمة الناشطة بتقديم المساعدة على برنامج المساعدة.
+            </p>
+            <p class="consent-text">
+              القانون العالمي التابع للأمم المتحدة وصندوق الطوارئ الدولي للطفولة التابع للأمم المتحدة/اليونيسيف. لذلك لن يتم الكشف عن معلوماتك الشخصية ومشاركتها مع أي طرف ثالث إلا إذا كان ذلك مطلوباً بموجب القانون ودون الحصول على موافقتك الصريحة. هل توافق أن نطرح عليك أسئلتنا وهل بإمكاننا البدء فيما هو في المقابلة؟
+            </p>
+
+            <div class="consent-checkboxes" [formGroup]="consentForm">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="consentRespondent" />
+                <span class="checkbox-text">هل توافق على الإجابة على أسئلتنا والمشاركة في هذا الاستبيان؟</span>
+              </label>
+
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="consentShareData" />
+                <span class="checkbox-text">هل توافق على مشاركة معلوماتك مع وكالات الأمم المتحدة أو المنظمات الدولية غير الحكومية أو أي وكالة حكومية أخرى</span>
+              </label>
+            </div>
+          </div>
+
+          <button class="btn-start" [disabled]="!canStartSurvey" (click)="startSurvey()">
+            بدء الاستبيان
+            <span class="btn-arrow">‹</span>
+          </button>
+        </div>
+      }
+
+      @if (currentStep() === 2) {
+        <div class="step-section" [formGroup]="step2Form">
+          <h2 class="section-title">القسم الثاني: بيانات الأسرة</h2>
+
+          <div class="form-group">
+            <label>عدد أفراد الأسرة</label>
+            <input type="number" formControlName="householdSize" class="form-control" placeholder="أدخل العدد" />
+          </div>
+
+          <div class="form-group">
+            <label>رب الأسرة</label>
+            <input type="text" formControlName="headOfHousehold" class="form-control" placeholder="اسم رب الأسرة" />
+          </div>
+
+          <div class="form-group">
+            <label>رقم الهاتف</label>
+            <input type="tel" formControlName="phoneNumber" class="form-control" placeholder="رقم الهاتف" />
+          </div>
+
+          <div class="form-group">
+            <label>العنوان</label>
+            <input type="text" formControlName="address" class="form-control" placeholder="العنوان الحالي" />
+          </div>
+
+          <div class="form-group">
+            <label>المنطقة</label>
+            <input type="text" formControlName="area" class="form-control" placeholder="المنطقة / القضاء" />
+          </div>
+
+          <div class="form-navigation">
+            <button class="btn-secondary" (click)="prevStep()">السابق</button>
+            <button class="btn-primary" (click)="nextStep()">التالي</button>
+          </div>
+        </div>
+      }
+
+      @if (currentStep() === 3) {
+        <div class="step-section" [formGroup]="step3Form">
+          <h2 class="section-title">القسم الثالث: الوضع الاقتصادي</h2>
+
+          <div class="form-group">
+            <label>مصدر الدخل</label>
+            <input type="text" formControlName="incomeSource" class="form-control" placeholder="مصدر الدخل الرئيسي" />
+          </div>
+
+          <div class="form-group">
+            <label>الدخل الشهري</label>
+            <input type="text" formControlName="monthlyIncome" class="form-control" placeholder="الدخل الشهري التقريبي" />
+          </div>
+
+          <div class="form-group">
+            <label>الوضع الوظيفي</label>
+            <select formControlName="employmentStatus" class="form-control">
+              <option value="">اختر...</option>
+              <option value="employed">يعمل</option>
+              <option value="unemployed">لا يعمل</option>
+              <option value="retired">متقاعد</option>
+              <option value="self_employed">عمل حر</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>نوع السكن</label>
+            <select formControlName="housingType" class="form-control">
+              <option value="">اختر...</option>
+              <option value="owned">ملك</option>
+              <option value="rented">إيجار</option>
+              <option value="hosted">استضافة</option>
+              <option value="shelter">مأوى</option>
+              <option value="other">أخرى</option>
+            </select>
+          </div>
+
+          <div class="form-navigation">
+            <button class="btn-secondary" (click)="prevStep()">السابق</button>
+            <button class="btn-primary" (click)="nextStep()">التالي</button>
+          </div>
+        </div>
+      }
+
+      @if (currentStep() === 4) {
+        <div class="step-section" [formGroup]="step4Form">
+          <h2 class="section-title">القسم الرابع: الصحة والتعليم</h2>
+
+          <div class="form-group">
+            <label>الحالات الصحية</label>
+            <textarea formControlName="healthConditions" class="form-control textarea" placeholder="أذكر أي حالات صحية مزمنة" rows="3"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>الإعاقات</label>
+            <textarea formControlName="disabilities" class="form-control textarea" placeholder="أذكر أي إعاقات إن وجدت" rows="3"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>المستوى التعليمي</label>
+            <select formControlName="educationLevel" class="form-control">
+              <option value="">اختر...</option>
+              <option value="none">لا يوجد</option>
+              <option value="primary">ابتدائي</option>
+              <option value="intermediate">متوسط</option>
+              <option value="secondary">ثانوي</option>
+              <option value="university">جامعي</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>التسجيل المدرسي (للأطفال)</label>
+            <select formControlName="schoolEnrollment" class="form-control">
+              <option value="">اختر...</option>
+              <option value="all_enrolled">جميعهم مسجلون</option>
+              <option value="some_enrolled">بعضهم مسجل</option>
+              <option value="none_enrolled">لا أحد مسجل</option>
+              <option value="no_children">لا يوجد أطفال</option>
+            </select>
+          </div>
+
+          <div class="form-navigation">
+            <button class="btn-secondary" (click)="prevStep()">السابق</button>
+            <button class="btn-primary" (click)="nextStep()">التالي</button>
+          </div>
+        </div>
+      }
+
+      @if (currentStep() === 5) {
+        <div class="step-section" [formGroup]="step5Form">
+          <h2 class="section-title">القسم الخامس: المساعدات والاحتياجات</h2>
+
+          <div class="form-group">
+            <label>المساعدات الحالية</label>
+            <textarea formControlName="currentAssistance" class="form-control textarea" placeholder="أذكر أي مساعدات تتلقاها حالياً" rows="3"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>نوع المساعدة</label>
+            <select formControlName="assistanceType" class="form-control">
+              <option value="">اختر...</option>
+              <option value="financial">مالية</option>
+              <option value="food">غذائية</option>
+              <option value="medical">طبية</option>
+              <option value="educational">تعليمية</option>
+              <option value="housing">سكنية</option>
+              <option value="multiple">متعددة</option>
+              <option value="none">لا يوجد</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>الاحتياجات الإضافية</label>
+            <textarea formControlName="additionalNeeds" class="form-control textarea" placeholder="أذكر أي احتياجات إضافية" rows="3"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>ملاحظات</label>
+            <textarea formControlName="notes" class="form-control textarea" placeholder="ملاحظات إضافية" rows="3"></textarea>
+          </div>
+
+          <div class="form-navigation">
+            <button class="btn-secondary" (click)="prevStep()">السابق</button>
+            <button class="btn-submit" [disabled]="saving()" (click)="submitForm()">
+              @if (saving()) {
+                <span class="spinner-small"></span>
+                جاري الإرسال...
+              } @else {
+                إرسال الاستبيان
+              }
+            </button>
+          </div>
+
+          @if (savedMessage()) {
+            <div class="saved-message">{{ savedMessage() }}</div>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>

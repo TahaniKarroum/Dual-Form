@@ -1,0 +1,30 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="logo-section">
+      <div class="ministry-logo">
+        <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+          <circle cx="30" cy="30" r="28" stroke="#1a3a5c" stroke-width="2" fill="none"/>
+          <path d="M30 10 L30 50 M15 20 L45 20 M15 30 L45 30 M15 40 L45 40 M20 10 L20 50 M40 10 L40 50" stroke="#1a3a5c" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <h1>وزارة الشؤون الاجتماعية</h1>
+      <p class="subtitle">نظام استبيان المساعدة الاجتماعية</p>
+    </div>
+
+    @if (authService.loading()) {
+      <div class="loading">
+        <div class="spinner"></div>
+        <p>جاري التحميل...</p>
+      </div>
+    } @else if (authService.isAuthenticated) {
+      <div class="loading">
+        <p>جاري التحويل...</p>
+      </div>
+    } @else {
+      <button class="login-btn" (click)="onLogin()">
+        تسجيل الدخول
+      </button>
+      <p class="login-hint">يرجى تسجيل الدخول للمتابعة كعامل اجتماعي</p>
+    }
+  </div>
+</div>
