@@ -830,6 +830,13 @@
             </label>
           </div>
 
+          @if (memberCountMismatch()) {
+            <div class="validation-error-banner">
+              <span class="error-icon">⚠</span>
+              <span>عدد الأفراد المضافين ({{ actualMemberCount }}) لا يتطابق مع عدد أفراد الأسرة المدخل في الخطوة السابقة ({{ expectedMemberCount }} فرد بدون رب(ة) الأسرة). يرجى تعديل العدد أو إضافة/حذف أفراد.</span>
+            </div>
+          }
+
           <div class="form-navigation-dual">
             <button class="btn-save" [disabled]="saving()" (click)="saveCurrentSection()">حفظ</button>
             <button class="btn-next" (click)="nextStep()">التالي <span class="btn-arrow">‹</span></button>

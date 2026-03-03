@@ -851,3 +851,22 @@
   accent-color: #1a3a5c;
   cursor: pointer;
 }
+
+.validation-error-banner {
+  background: #fff3f3;
+  border: 2px solid #e74c3c;
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 16px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #c0392b;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.validation-error-banner .error-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}

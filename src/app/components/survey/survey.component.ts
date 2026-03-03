@@ -40,6 +40,7 @@ export class SurveyComponent implements OnInit {
   allLiveInLebanon = signal<'yes' | 'no'>('yes');
   agreeTerms = signal(false);
   expandedMemberIndex = signal<number | null>(null);
+  memberCountMismatch = signal(false);
 
   districtsMap: Record<string, { value: string; label: string }[]> = {
     beirut: [
@@ -247,6 +248,7 @@ export class SurveyComponent implements OnInit {
   addMember() {
     this.membersArray.push(this.createMemberGroup());
     this.expandedMemberIndex.set(this.membersArray.length - 1);
+    this.memberCountMismatch.set(false);
   }
 
   removeMember(index: number) {
@@ -254,6 +256,7 @@ export class SurveyComponent implements OnInit {
     if (this.expandedMemberIndex() === index) {
       this.expandedMemberIndex.set(null);
     }
+    this.memberCountMismatch.set(false);
   }
 
   toggleMember(index: number) {
@@ -364,7 +367,25 @@ export class SurveyComponent implements OnInit {
     }
   }
 
+  get expectedMemberCount(): number {
+    const size = parseInt(this.step2Form.get('householdSize')?.value, 10);
+    return isNaN(size) ? 0 : size - 1;
+  }
+
+  get actualMemberCount(): number {
+    return this.membersArray.length;
+  }
+
   nextStep() {
+    if (this.currentStep() === 4) {
+      const expected = this.expectedMemberCount;
+      const actual = this.actualMemberCount;
+      if (expected > 0 && actual !== expected) {
+        this.memberCountMismatch.set(true);
+        return;
+      }
+      this.memberCountMismatch.set(false);
+    }
     if (this.currentStep() < this.totalSteps) {
       this.currentStep.set(this.currentStep() + 1);
       this.saveDraft();
