@@ -590,6 +590,22 @@ export class SurveyComponent implements OnInit {
     this.step2Form.patchValue({ hasDisability: val });
   }
 
+  onIntegerKeyDown(event: KeyboardEvent) {
+    const allowed = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Delete', 'Home', 'End'];
+    if (allowed.includes(event.key)) return;
+    if (event.ctrlKey || event.metaKey) return;
+    if (!/^\d$/.test(event.key)) {
+      event.preventDefault();
+    }
+  }
+
+  onIntegerPaste(event: ClipboardEvent) {
+    const paste = event.clipboardData?.getData('text') || '';
+    if (!/^\d+$/.test(paste)) {
+      event.preventDefault();
+    }
+  }
+
   toggleNoIdCard() {
     this.noIdCard.set(!this.noIdCard());
     this.step2Form.patchValue({ noIdCard: this.noIdCard() });

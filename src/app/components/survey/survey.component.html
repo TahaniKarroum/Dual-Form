@@ -410,7 +410,7 @@
           <div class="form-card">
             <div class="form-group">
               <label class="field-label-required">عدد أفراد الأسرة (بما فيها رب(ة) الأسرة) *</label>
-              <input type="number" formControlName="householdSize" class="form-control" />
+              <input type="number" formControlName="householdSize" class="form-control" step="1" (keydown)="onIntegerKeyDown($event)" (paste)="onIntegerPaste($event)" />
             </div>
 
             <div class="info-notice">
@@ -422,7 +422,7 @@
           <div class="form-card">
             <div class="form-group">
               <label class="field-label-required">عدد العمال/العاملات المنزليين حالياً *</label>
-              <input type="number" formControlName="domesticWorkers" class="form-control" />
+              <input type="number" formControlName="domesticWorkers" class="form-control" step="1" (keydown)="onIntegerKeyDown($event)" (paste)="onIntegerPaste($event)" />
             </div>
           </div>
 
@@ -486,12 +486,12 @@
 
             <div class="form-group">
               <label class="field-label-required">مجموع الدخل في الشهرين السابقين بالفرش دولار (Fresh) *</label>
-              <input type="number" formControlName="incomeFreshDollar" class="form-control" />
+              <input type="number" formControlName="incomeFreshDollar" class="form-control" step="1" (keydown)="onIntegerKeyDown($event)" (paste)="onIntegerPaste($event)" />
             </div>
 
             <div class="form-group">
               <label class="field-label-required">مجموع الدخل في الشهرين السابقين بالليرة اللبنانيّة *</label>
-              <input type="number" formControlName="incomeLBP" class="form-control" />
+              <input type="number" formControlName="incomeLBP" class="form-control" step="1" (keydown)="onIntegerKeyDown($event)" (paste)="onIntegerPaste($event)" />
             </div>
 
             <div class="info-notice">
@@ -507,7 +507,7 @@
 
             <div class="form-group">
               <label class="field-label-required">الدخل السنوي من مصادر أخرى *</label>
-              <input type="number" formControlName="otherIncomeAmount" class="form-control" />
+              <input type="number" formControlName="otherIncomeAmount" class="form-control" step="1" (keydown)="onIntegerKeyDown($event)" (paste)="onIntegerPaste($event)" />
             </div>
 
             <div class="form-group">
@@ -527,7 +527,7 @@
 
             <div class="form-group">
               <label class="field-label-required">التحويلات السنوية من خارج لبنان *</label>
-              <input type="number" formControlName="remittanceAmount" class="form-control" />
+              <input type="number" formControlName="remittanceAmount" class="form-control" step="1" (keydown)="onIntegerKeyDown($event)" (paste)="onIntegerPaste($event)" />
             </div>
 
             <div class="form-group">
@@ -781,17 +781,17 @@
 
                   <div class="form-group">
                     <label class="field-label-required">مجموع الدخل بالفرش دولار (Fresh) *</label>
-                    <input type="number" formControlName="incomeFreshDollar" class="form-control" />
+                    <input type="number" formControlName="incomeFreshDollar" class="form-control" step="1" (keydown)="onIntegerKeyDown($event)" (paste)="onIntegerPaste($event)" />
                   </div>
 
                   <div class="form-group">
                     <label class="field-label-required">مجموع الدخل بالليرة اللبنانيّة *</label>
-                    <input type="number" formControlName="incomeLBP" class="form-control" />
+                    <input type="number" formControlName="incomeLBP" class="form-control" step="1" (keydown)="onIntegerKeyDown($event)" (paste)="onIntegerPaste($event)" />
                   </div>
 
                   <div class="form-group">
                     <label class="field-label-required">الدخل السنوي من مصادر أخرى *</label>
-                    <input type="number" formControlName="otherIncomeAmount" class="form-control" />
+                    <input type="number" formControlName="otherIncomeAmount" class="form-control" step="1" (keydown)="onIntegerKeyDown($event)" (paste)="onIntegerPaste($event)" />
                   </div>
 
                   <div class="form-group">
@@ -805,7 +805,7 @@
 
                   <div class="form-group">
                     <label class="field-label-required">التحويلات السنوية من خارج لبنان *</label>
-                    <input type="number" formControlName="remittanceAmount" class="form-control" />
+                    <input type="number" formControlName="remittanceAmount" class="form-control" step="1" (keydown)="onIntegerKeyDown($event)" (paste)="onIntegerPaste($event)" />
                   </div>
 
                   <div class="form-group">
@@ -974,14 +974,14 @@
           <div class="form-card">
             <div class="form-group">
               <label class="field-label-required">كم عدد الغرف (باستثناء المطبخ والمراحيض) التي تشغلها أسرتك حالياً في مسكنك الحالي؟ *</label>
-              <input type="number" formControlName="numberOfRooms" class="form-control" min="0" />
+              <input type="number" formControlName="numberOfRooms" class="form-control" min="0" step="1" (keydown)="onIntegerKeyDown($event)" (paste)="onIntegerPaste($event)" />
             </div>
           </div>
 
           <div class="form-card">
             <div class="form-group">
               <label class="field-label-required">كم عدد الأسر التي تعيش في المسكن الحالي؟ (احسب العائلة المضيفة) *</label>
-              <input type="number" formControlName="numberOfFamilies" class="form-control" min="1" />
+              <input type="number" formControlName="numberOfFamilies" class="form-control" min="1" step="1" (keydown)="onIntegerKeyDown($event)" (paste)="onIntegerPaste($event)" />
             </div>
           </div>
 
@@ -1083,21 +1083,21 @@
           <div class="form-card">
             <div class="form-group">
               <label class="field-label-required">عدد ساعات الكهرباء التي حصلت عليها أمس/ آخر 24 ساعة من جميع المصادر؟ *</label>
-              <input type="number" formControlName="electricityHours" class="form-control" min="0" max="24" />
+              <input type="number" formControlName="electricityHours" class="form-control" min="0" max="24" step="1" (keydown)="onIntegerKeyDown($event)" (paste)="onIntegerPaste($event)" />
             </div>
           </div>
 
           <div class="form-card">
             <div class="form-group">
               <label>كم عدد الأمبيرات التي تحصل عليها من المولد الخاص؟</label>
-              <input type="number" formControlName="generatorAmps" class="form-control" min="0" />
+              <input type="number" formControlName="generatorAmps" class="form-control" min="0" step="1" (keydown)="onIntegerKeyDown($event)" (paste)="onIntegerPaste($event)" />
             </div>
           </div>
 
           <div class="form-card">
             <div class="form-group">
               <label class="field-label-required">كم عدد المراحيض الموجودة في مسكنك الحالي؟ *</label>
-              <input type="number" formControlName="numberOfToilets" class="form-control" min="0" />
+              <input type="number" formControlName="numberOfToilets" class="form-control" min="0" step="1" (keydown)="onIntegerKeyDown($event)" (paste)="onIntegerPaste($event)" />
             </div>
           </div>
 
@@ -1170,7 +1170,7 @@
           <div class="form-card">
             <div class="form-group">
               <label class="field-label-required">كم عدد الهواتف المحمولة العاملة التي يمتلكها الأشخاص في منزلك إجمالاً، بما في ذلك هاتفك؟ *</label>
-              <input type="number" formControlName="numberOfMobilePhones" class="form-control" min="0" />
+              <input type="number" formControlName="numberOfMobilePhones" class="form-control" min="0" step="1" (keydown)="onIntegerKeyDown($event)" (paste)="onIntegerPaste($event)" />
             </div>
           </div>
 
