@@ -60,21 +60,21 @@
 
           <div class="consent-section">
             <p class="consent-text">
-              أسعى وأعمل في وزارة الشؤون الاجتماعية نود جمع بعض البيانات الشخصية عنك وعن أفراد عائلتك بهدف إدراجك في برنامج المساعدة الذي تقدمه للأسر النازحة. نحن ملتزمون بتوضيح لك أن مشاركة بياناتك طوعية وعدم ذلك لن يؤثر على إمكانية الحصول على المساعدة التي قد تقدمها وزارة الشؤون الاجتماعية لاحقاً. كما أنه من المتعين أن نوضح أن جميع المعلومات التي ستشاركها معنا ستكون سرية تماماً وستحفظ مجموعة بشكل آمن. من حق الاطلاع عليها مقصور فقط على معتمدي البرنامج والمنظمة الناشطة بتقديم المساعدة على برنامج المساعدة.
+              مرحباً، اسمي XXX وأعمل في وزارة الشؤون الاجتماعية. نود جمع بعض البيانات الشخصية عنك وعن أفراد عائلتك بهدف إدراجك في برنامج المساعدة الذي نقدمه للأسر النازحة. نحن مهتمون بتوضيح لك أن مشاركة بياناتك طوعية. ومع ذلك، فإن رفضك في مشاركة البيانات قد يعيق إدراج عائلتك في برامج المساعدة التي قد تقدمها وزارة الشؤون الاجتماعية لاحقاً.
             </p>
             <p class="consent-text">
-              القانون العالمي التابع للأمم المتحدة وصندوق الطوارئ الدولي للطفولة التابع للأمم المتحدة/اليونيسيف. لذلك لن يتم الكشف عن معلوماتك الشخصية ومشاركتها مع أي طرف ثالث إلا إذا كان ذلك مطلوباً بموجب القانون ودون الحصول على موافقتك الصريحة. هل توافق أن نطرح عليك أسئلتنا وهل بإمكاننا البدء فيما هو في المقابلة؟
+              كما أنه من المهم أن نوضح أن جميع المعلومات التي تشاركها معنا ستكون سرية تماماً وستظل محفوظة بشكل آمن، مع حق الاطلاع عليها مقصور فقط على منظمي البرنامج والمنظمة المرتبطة المكلفة بتقديم المساعدة مثل برنامج الغذاء العالمي التابع للأمم المتحدة وصندوق الطوارئ الدولي للطفولة التابع للأمم المتحدة (اليونيسيف). لذلك، لن يتم الكشف عن معلوماتك الشخصية أو مشاركتها مع أي طرف ثالث إلا إذا كان ذلك مطلوباً بموجب القانون أو دون الحصول على موافقتك الصريحة.
             </p>
 
             <div class="consent-checkboxes" [formGroup]="consentForm">
               <label class="checkbox-label">
                 <input type="checkbox" formControlName="consentRespondent" />
-                <span class="checkbox-text">هل توافق على الإجابة على أسئلتنا والمشاركة في هذا الاستبيان؟</span>
+                <span class="checkbox-text">هل توافق أن نطرح عليك أسئلتنا وهل بإمكاننا المضي قدماً في المقابلة؟</span>
               </label>
 
               <label class="checkbox-label">
                 <input type="checkbox" formControlName="consentShareData" />
-                <span class="checkbox-text">هل توافق على مشاركة معلوماتك مع وكالات الأمم المتحدة أو المنظمات الدولية غير الحكومية أو أي وكالة حكومية أخرى</span>
+                <span class="checkbox-text">هل توافق على مشاركة معلوماتك مع وكالات الأمم المتحدة أو المنظمات الدولية غير الحكومية أو أي وكالة حكومية أخرى ألجل الاستفادة من المساعدات الأخرى</span>
               </label>
             </div>
           </div>
@@ -215,11 +215,17 @@
                 <label class="field-label-required">مكان الولادة *</label>
                 <select formControlName="placeOfBirth" class="form-control">
                   <option value="">اختر...</option>
-                  <option value="lebanon">لبنان Lebanon</option>
-                  <option value="syria">سوريا Syria</option>
-                  <option value="palestine">فلسطين Palestine</option>
-                  <option value="iraq">العراق Iraq</option>
-                  <option value="other">أخرى Other</option>
+                  <option value="lebanese">لبناني/ة</option>
+                  <option value="syrian">سوري/ة</option>
+                  <option value="palestinian">فلسطيني/ة</option>
+                  <option value="iraqi">عراقي/ة</option>
+                  <option value="sri_lankan">سريلانكا</option>
+                  <option value="bangladeshi">بنغالديش</option>
+                  <option value="filipino">فلبيني/ة</option>
+                  <option value="sudanese">سوداني/ة</option>
+                  <option value="egyptian">مصري/ة</option>
+                  <option value="ethiopian">اثيوبي/ة</option>
+                  <option value="other">أخرى، حدد</option>
                 </select>
               </div>
               <div class="form-group">
@@ -254,11 +260,13 @@
               <label class="field-label-required">الوضع العائلي *</label>
               <select formControlName="maritalStatus" class="form-control">
                 <option value="">اختر...</option>
-                <option value="never_married">لم يسبق له (لها) الزواج Never been Married</option>
-                <option value="married">متزوج(ة) Married</option>
-                <option value="divorced">مطلق(ة) Divorced</option>
-                <option value="widowed">أرمل(ة) Widowed</option>
-                <option value="separated">منفصل(ة) Separated</option>
+                <option value="never_married">لم (ت)يتزوج أبداً</option>
+                <option value="married">متزوج(ة)</option>
+                <option value="cohabiting">مشاركة منزلية (شريكان غير متزوجين)</option>
+                <option value="polygamous">زواج تعددي</option>
+                <option value="widowed">أرمل(ة)</option>
+                <option value="divorced">مطلق(ة)</option>
+                <option value="separated">منفصل(ة)</option>
               </select>
             </div>
           </div>
@@ -272,14 +280,14 @@
                 <label class="field-label-required">المحافظة *</label>
                 <select formControlName="governorate" class="form-control" (change)="onGovernorateChange()">
                   <option value="">اختر...</option>
-                  <option value="beirut">بيروت Beirut</option>
-                  <option value="mount_lebanon">جبل لبنان Mount Lebanon</option>
-                  <option value="north">الشمال North</option>
-                  <option value="south">الجنوب South</option>
-                  <option value="bekaa">البقاع Bekaa</option>
-                  <option value="nabatieh">النبطية Nabatieh</option>
-                  <option value="akkar">عكار Akkar</option>
-                  <option value="baalbek_hermel">بعلبك الهرمل Baalbek-Hermel</option>
+                  <option value="beirut">بيروت</option>
+                  <option value="baalbek_hermel">بعلبك - الهرمل</option>
+                  <option value="bekaa">البقاع</option>
+                  <option value="mount_lebanon">جبل لبنان</option>
+                  <option value="akkar">عكار</option>
+                  <option value="north">الشمال</option>
+                  <option value="nabatieh">النبطية</option>
+                  <option value="south">الجنوب</option>
                 </select>
               </div>
               <div class="form-group">
@@ -660,11 +668,17 @@
                       <label class="field-label-required">مكان الولادة *</label>
                       <select formControlName="placeOfBirth" class="form-control">
                         <option value="">اختر...</option>
-                        <option value="lebanon">لبنان Lebanon</option>
-                        <option value="syria">سوريا Syria</option>
-                        <option value="palestine">فلسطين Palestine</option>
-                        <option value="iraq">العراق Iraq</option>
-                        <option value="other">أخرى Other</option>
+                        <option value="lebanese">لبناني/ة</option>
+                        <option value="syrian">سوري/ة</option>
+                        <option value="palestinian">فلسطيني/ة</option>
+                        <option value="iraqi">عراقي/ة</option>
+                        <option value="sri_lankan">سريلانكا</option>
+                        <option value="bangladeshi">بنغالديش</option>
+                        <option value="filipino">فلبيني/ة</option>
+                        <option value="sudanese">سوداني/ة</option>
+                        <option value="egyptian">مصري/ة</option>
+                        <option value="ethiopian">اثيوبي/ة</option>
+                        <option value="other">أخرى، حدد</option>
                       </select>
                     </div>
                     <div class="form-group">
@@ -693,29 +707,32 @@
                   </div>
 
                   <div class="form-group">
-                    <label class="field-label-required">الوضع العائلي *</label>
+                    <label class="field-label-required">الوضع الإجتماعي *</label>
                     <select formControlName="maritalStatus" class="form-control">
                       <option value="">اختر...</option>
-                      <option value="never_married">لم يسبق له (لها) الزواج</option>
+                      <option value="never_married">لم (ت)يتزوج أبداً</option>
                       <option value="married">متزوج(ة)</option>
-                      <option value="divorced">مطلق(ة)</option>
+                      <option value="cohabiting">مشاركة منزلية (شريكان غير متزوجين)</option>
+                      <option value="polygamous">زواج تعددي</option>
                       <option value="widowed">أرمل(ة)</option>
+                      <option value="divorced">مطلق(ة)</option>
                       <option value="separated">منفصل(ة)</option>
                     </select>
                   </div>
 
                   <div class="form-group">
-                    <label class="field-label-required">صلة القرابة برب(ة) الأسرة *</label>
+                    <label class="field-label-required">العلاقة برب الاسرة *</label>
                     <select formControlName="relationToHead" class="form-control">
                       <option value="">اختر...</option>
-                      <option value="spouse">زوج/زوجة</option>
-                      <option value="son">ابن</option>
-                      <option value="daughter">ابنة</option>
-                      <option value="father">أب</option>
-                      <option value="mother">أم</option>
-                      <option value="brother">أخ</option>
-                      <option value="sister">أخت</option>
+                      <option value="head">هو رب الاسرة</option>
+                      <option value="spouse">الزوج/الزوجة</option>
+                      <option value="child">الإبن/الإبنة</option>
+                      <option value="sibling">أخ/أخت</option>
+                      <option value="grandparent">جدّ/جدّة</option>
                       <option value="grandchild">حفيد/حفيدة</option>
+                      <option value="in_law">صهر/زوجة الإبن</option>
+                      <option value="mother">الأم</option>
+                      <option value="father">الأب</option>
                       <option value="other_relative">قريب آخر</option>
                       <option value="non_relative">غير قريب</option>
                     </select>
@@ -838,12 +855,12 @@
               <label class="field-label-required">ما هو نوع المكان الذي يتم تسجيل هذه المعلومات فيه *</label>
               <select formControlName="placeType" class="form-control">
                 <option value="">اختر...</option>
-                <option value="home">منزل</option>
-                <option value="shelter">مأوى</option>
-                <option value="collective_center">مركز إيواء جماعي</option>
-                <option value="tent">خيمة</option>
-                <option value="workplace">مكان عمل</option>
-                <option value="other">أخرى</option>
+                <option value="collective_shelter">مأوي جماعي</option>
+                <option value="displacement_rented">منزل النزوح - مستأجر</option>
+                <option value="displacement_guest_without_host">منزل النزوح - ضيفاً من دون المضيف</option>
+                <option value="displacement_guest_with_host">منزل النزوح - ضيفاً مع المضيف</option>
+                <option value="mosa_center">مركز وزارة الشؤون الاجتماعية</option>
+                <option value="other">اخر</option>
               </select>
             </div>
           </div>
@@ -855,8 +872,7 @@
                 <option value="">اختر...</option>
                 <option value="displaced">نازح</option>
                 <option value="host">مضيف</option>
-                <option value="returnee">عائد</option>
-                <option value="resident">مقيم</option>
+                <option value="none">لا شيء مما سبق</option>
               </select>
             </div>
           </div>
