@@ -14,14 +14,15 @@ import { FormService, FormSubmission } from '../../services/form.service';
 })
 export class SurveyComponent implements OnInit {
   currentStep = signal(1);
-  totalSteps = 5;
-  steps = [1, 2, 3, 4, 5];
+  totalSteps = 6;
+  steps = [1, 2, 3, 4, 5, 6];
 
   consentForm!: FormGroup;
   step2Form!: FormGroup;
   step3Form!: FormGroup;
   step4Form!: FormGroup;
   step5Form!: FormGroup;
+  step6Form!: FormGroup;
 
   formId: number | null = null;
   isOnline = signal(navigator.onLine);
@@ -273,6 +274,9 @@ export class SurveyComponent implements OnInit {
       numberOfMobilePhones: [''],
       assistanceReceived: [''],
       caseNumber: [''],
+    });
+
+    this.step6Form = this.fb.group({
       childLostToConflict: [''],
       childSeparatedAccepted: [''],
       childPsychologicalDistress: [''],
@@ -418,6 +422,7 @@ export class SurveyComponent implements OnInit {
       }
     }
     if (draft.step5Data) this.step5Form.patchValue(draft.step5Data);
+    if (draft.step6Data) this.step6Form.patchValue(draft.step6Data);
     if (draft.currentStep) this.currentStep.set(draft.currentStep);
     if (draft.id) this.formId = draft.id;
   }
@@ -490,6 +495,7 @@ export class SurveyComponent implements OnInit {
         agreeTerms: this.step4Form.value.agreeTerms,
       },
       step5Data: this.step5Form.value,
+      step6Data: this.step6Form.value,
       status: 'draft',
     };
   }

@@ -15,6 +15,7 @@ export interface FormSubmission {
   step3Data?: any;
   step4Data?: any;
   step5Data?: any;
+  step6Data?: any;
   status: string;
 }
 

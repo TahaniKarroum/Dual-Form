@@ -911,8 +911,6 @@
             </div>
           </div>
 
-          <h3 class="subsection-title">القسم د - المسكن والمرافق</h3>
-
           <div class="form-card">
             <div class="form-group">
               <label class="field-label-required">d1. ما هو نوع مسكنك/المأوى الحالي ؟ *</label>
@@ -1193,7 +1191,16 @@
             </div>
           </div>
 
-          <h3 class="subsection-title">القسم هـ - حماية الطفل</h3>
+          <div class="form-navigation-dual">
+            <button class="btn-save" [disabled]="saving()" (click)="saveCurrentSection()">حفظ</button>
+            <button class="btn-next" (click)="nextStep()">التالي <span class="btn-arrow">‹</span></button>
+          </div>
+        </div>
+      }
+
+      <!-- STEP 6 -->
+      @if (currentStep() === 6) {
+        <div class="step-section" [formGroup]="step6Form">
 
           <div class="form-card">
             <div class="form-group">
