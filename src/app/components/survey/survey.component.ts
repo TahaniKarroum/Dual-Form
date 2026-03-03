@@ -43,13 +43,10 @@ export class SurveyComponent implements OnInit {
   memberCountMismatch = signal(false);
 
   headUnder18 = signal(false);
+  headMaritalInvalid = signal(false);
 
-  private checkHeadAge() {
-    const dob = this.step2Form?.get('dateOfBirth')?.value;
-    if (!dob) {
-      this.headUnder18.set(false);
-      return;
-    }
+  private calculateAge(dob: string): number {
+    if (!dob) return -1;
     const birthDate = new Date(dob);
     const today = new Date();
     let age = today.getFullYear() - birthDate.getFullYear();
@@ -57,7 +54,31 @@ export class SurveyComponent implements OnInit {
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
       age--;
     }
-    this.headUnder18.set(age < 18);
+    return age;
+  }
+
+  private readonly marriedStatuses = ['married', 'polygamous', 'widowed', 'divorced', 'separated'];
+
+  private checkHeadAge() {
+    const dob = this.step2Form?.get('dateOfBirth')?.value;
+    const age = this.calculateAge(dob);
+    this.headUnder18.set(age >= 0 && age < 18);
+    this.checkHeadMaritalStatus();
+  }
+
+  private checkHeadMaritalStatus() {
+    const dob = this.step2Form?.get('dateOfBirth')?.value;
+    const age = this.calculateAge(dob);
+    const status = this.step2Form?.get('maritalStatus')?.value;
+    this.headMaritalInvalid.set(age >= 0 && age < 9 && this.marriedStatuses.includes(status));
+  }
+
+  isMemberMaritalInvalid(index: number): boolean {
+    const member = this.getMemberGroup(index);
+    const dob = member?.get('dateOfBirth')?.value;
+    const age = this.calculateAge(dob);
+    const status = member?.get('maritalStatus')?.value;
+    return age >= 0 && age < 9 && this.marriedStatuses.includes(status);
   }
 
   districtsMap: Record<string, { value: string; label: string }[]> = {
@@ -144,6 +165,9 @@ export class SurveyComponent implements OnInit {
 
     this.step2Form.get('dateOfBirth')?.valueChanges.subscribe(() => {
       this.checkHeadAge();
+    });
+    this.step2Form.get('maritalStatus')?.valueChanges.subscribe(() => {
+      this.checkHeadMaritalStatus();
     });
 
     window.addEventListener('online', () => {
@@ -399,7 +423,7 @@ export class SurveyComponent implements OnInit {
   }
 
   nextStep() {
-    if (this.currentStep() === 2 && this.headUnder18()) {
+    if (this.currentStep() === 2 && (this.headUnder18() || this.headMaritalInvalid())) {
       return;
     }
     if (this.currentStep() === 4) {

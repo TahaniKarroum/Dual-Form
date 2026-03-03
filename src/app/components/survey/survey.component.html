@@ -291,6 +291,11 @@
                 <option value="divorced">مطلق(ة)</option>
                 <option value="separated">منفصل(ة)</option>
               </select>
+              @if (headMaritalInvalid()) {
+                <div class="field-validation-error">
+                  <span>⚠ لا يمكن لشخص تحت سن 9 سنوات أن يكون متزوجاً أو مطلقاً أو أرملاً أو منفصلاً</span>
+                </div>
+              }
             </div>
           </div>
 
@@ -720,6 +725,11 @@
                       <option value="divorced">مطلق(ة)</option>
                       <option value="separated">منفصل(ة)</option>
                     </select>
+                    @if (isMemberMaritalInvalid($index)) {
+                      <div class="field-validation-error">
+                        <span>⚠ لا يمكن لشخص تحت سن 9 سنوات أن يكون متزوجاً أو مطلقاً أو أرملاً أو منفصلاً</span>
+                      </div>
+                    }
                   </div>
 
                   <div class="form-group">
