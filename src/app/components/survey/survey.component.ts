@@ -138,7 +138,7 @@ export class SurveyComponent implements OnInit {
   private initForms() {
     this.consentForm = this.fb.group({
       consentRespondent: [false, Validators.requiredTrue],
-      consentShareData: [false, Validators.requiredTrue],
+      consentShareData: [false],
     });
 
     this.step2Form = this.fb.group({
