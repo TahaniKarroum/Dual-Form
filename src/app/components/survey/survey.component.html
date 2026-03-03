@@ -41,7 +41,7 @@
       @if (currentStep() === 1) {
         <div class="step-section">
           <div class="form-group">
-            <label>تاريخ المقابلة</label>
+            <label class="field-label-required">تاريخ المقابلة *</label>
             <div class="form-row">
               <span class="date-icon">📅</span>
               <input type="text" [value]="interviewDate()" readonly class="form-control readonly" />
@@ -49,12 +49,12 @@
           </div>
 
           <div class="form-group">
-            <label>إسم العامل الإجتماعي</label>
+            <label class="field-label-required">إسم العامل الإجتماعي *</label>
             <input type="text" [value]="swName()" readonly class="form-control readonly" />
           </div>
 
           <div class="form-group">
-            <label>الإسم الكامل للمشرف الميداني من وزارة الشؤون</label>
+            <label class="field-label-required">الإسم الكامل للمشرف الميداني من وزارة الشؤون *</label>
             <input type="text" value="" readonly class="form-control readonly" placeholder="يتم تعبئته تلقائياً" />
           </div>
 
@@ -82,7 +82,7 @@
               </div>
 
               <div class="form-group">
-                <label>هل توافق على مشاركة معلوماتك مع وكالات الأمم المتحدة أو المنظمات الدولية غير الحكومية أو أي وكالة حكومية أخرى ألجل الاستفادة من المساعدات الأخرى</label>
+                <label class="field-label-required">هل توافق على مشاركة معلوماتك مع وكالات الأمم المتحدة أو المنظمات الدولية غير الحكومية أو أي وكالة حكومية أخرى ألجل الاستفادة من المساعدات الأخرى *</label>
                 <div class="radio-group">
                   <label class="radio-label">
                     <input type="radio" formControlName="consentShareData" value="yes" />
