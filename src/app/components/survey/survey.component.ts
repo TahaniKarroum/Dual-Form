@@ -42,6 +42,24 @@ export class SurveyComponent implements OnInit {
   expandedMemberIndex = signal<number | null>(null);
   memberCountMismatch = signal(false);
 
+  headUnder18 = signal(false);
+
+  private checkHeadAge() {
+    const dob = this.step2Form?.get('dateOfBirth')?.value;
+    if (!dob) {
+      this.headUnder18.set(false);
+      return;
+    }
+    const birthDate = new Date(dob);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    this.headUnder18.set(age < 18);
+  }
+
   districtsMap: Record<string, { value: string; label: string }[]> = {
     beirut: [
       { value: 'beirut', label: 'بيروت' },
@@ -123,6 +141,10 @@ export class SurveyComponent implements OnInit {
 
   ngOnInit() {
     this.initForms();
+
+    this.step2Form.get('dateOfBirth')?.valueChanges.subscribe(() => {
+      this.checkHeadAge();
+    });
 
     window.addEventListener('online', () => {
       this.isOnline.set(true);
@@ -377,6 +399,9 @@ export class SurveyComponent implements OnInit {
   }
 
   nextStep() {
+    if (this.currentStep() === 2 && this.headUnder18()) {
+      return;
+    }
     if (this.currentStep() === 4) {
       const expected = this.expectedMemberCount;
       const actual = this.actualMemberCount;

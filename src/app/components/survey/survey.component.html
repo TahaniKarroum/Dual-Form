@@ -225,6 +225,11 @@
                 <div class="input-with-icon">
                   <input type="date" formControlName="dateOfBirth" class="form-control" />
                 </div>
+                @if (headUnder18()) {
+                  <div class="field-validation-error">
+                    <span>⚠ يجب أن يكون عمر رب(ة) الأسرة 18 سنة أو أكثر</span>
+                  </div>
+                }
               </div>
             </div>
 
