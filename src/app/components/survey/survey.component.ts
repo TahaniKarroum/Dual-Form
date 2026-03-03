@@ -137,8 +137,8 @@ export class SurveyComponent implements OnInit {
 
   private initForms() {
     this.consentForm = this.fb.group({
-      consentRespondent: [false, Validators.requiredTrue],
-      consentShareData: [false],
+      consentRespondent: ['', Validators.required],
+      consentShareData: [''],
     });
 
     this.step2Form = this.fb.group({
@@ -348,7 +348,7 @@ export class SurveyComponent implements OnInit {
   }
 
   get canStartSurvey(): boolean {
-    return this.consentForm.valid;
+    return this.consentForm.get('consentRespondent')?.value === 'yes';
   }
 
   startSurvey() {
@@ -359,7 +359,7 @@ export class SurveyComponent implements OnInit {
   }
 
   goToStep(step: number) {
-    if (step === 1 || (step > 1 && this.consentForm.valid)) {
+    if (step === 1 || (step > 1 && this.canStartSurvey)) {
       this.currentStep.set(step);
     }
   }

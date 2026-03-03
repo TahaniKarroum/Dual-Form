@@ -66,16 +66,34 @@
               كما أنه من المهم أن نوضح أن جميع المعلومات التي تشاركها معنا ستكون سرية تماماً وستظل محفوظة بشكل آمن، مع حق الاطلاع عليها مقصور فقط على منظمي البرنامج والمنظمة المرتبطة المكلفة بتقديم المساعدة مثل برنامج الغذاء العالمي التابع للأمم المتحدة وصندوق الطوارئ الدولي للطفولة التابع للأمم المتحدة (اليونيسيف). لذلك، لن يتم الكشف عن معلوماتك الشخصية أو مشاركتها مع أي طرف ثالث إلا إذا كان ذلك مطلوباً بموجب القانون أو دون الحصول على موافقتك الصريحة.
             </p>
 
-            <div class="consent-checkboxes" [formGroup]="consentForm">
-              <label class="checkbox-label">
-                <input type="checkbox" formControlName="consentRespondent" />
-                <span class="checkbox-text">هل توافق أن نطرح عليك أسئلتنا وهل بإمكاننا المضي قدماً في المقابلة؟</span>
-              </label>
+            <div class="consent-questions" [formGroup]="consentForm">
+              <div class="form-group">
+                <label class="field-label-required">هل توافق أن نطرح عليك أسئلتنا وهل بإمكاننا المضي قدماً في المقابلة؟ *</label>
+                <div class="radio-group">
+                  <label class="radio-label">
+                    <input type="radio" formControlName="consentRespondent" value="yes" />
+                    <span>نعم</span>
+                  </label>
+                  <label class="radio-label">
+                    <input type="radio" formControlName="consentRespondent" value="no" />
+                    <span>لا</span>
+                  </label>
+                </div>
+              </div>
 
-              <label class="checkbox-label">
-                <input type="checkbox" formControlName="consentShareData" />
-                <span class="checkbox-text">هل توافق على مشاركة معلوماتك مع وكالات الأمم المتحدة أو المنظمات الدولية غير الحكومية أو أي وكالة حكومية أخرى ألجل الاستفادة من المساعدات الأخرى</span>
-              </label>
+              <div class="form-group">
+                <label>هل توافق على مشاركة معلوماتك مع وكالات الأمم المتحدة أو المنظمات الدولية غير الحكومية أو أي وكالة حكومية أخرى ألجل الاستفادة من المساعدات الأخرى</label>
+                <div class="radio-group">
+                  <label class="radio-label">
+                    <input type="radio" formControlName="consentShareData" value="yes" />
+                    <span>نعم</span>
+                  </label>
+                  <label class="radio-label">
+                    <input type="radio" formControlName="consentShareData" value="no" />
+                    <span>لا</span>
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
 
