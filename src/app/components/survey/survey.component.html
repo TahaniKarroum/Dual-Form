@@ -911,6 +911,338 @@
             </div>
           </div>
 
+          <h3 class="subsection-title">القسم د - المسكن والمرافق</h3>
+
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">d1. ما هو نوع مسكنك/المأوى الحالي ؟ *</label>
+              <select formControlName="housingType" class="form-control">
+                <option value="">اختر...</option>
+                <option value="apartment">شقة في مبنى مستقل</option>
+                <option value="collective_shelter">مأوى جماعي (المدارس والأديرة والمؤسسات الدينية وغيرها)</option>
+                <option value="informal_settlement">مسكن مرتجل في مستوطنة عشوائية (مثل خيمة)</option>
+                <option value="villa">فيلا (أكثر من طابق)</option>
+                <option value="independent_house">منزل مستقل</option>
+                <option value="factory_warehouse">مصنع / مستودع / مرآب / مخزن / محل / موقع العمل</option>
+                <option value="concierge_room">غرفة ناطور</option>
+                <option value="unfinished_building">مبنى غير مكتمل</option>
+                <option value="other">غير ذلك، حدد</option>
+              </select>
+            </div>
+            @if (step5Form.get('housingType')?.value === 'other') {
+              <div class="form-group">
+                <label class="field-label-required">غير ذلك، حدد *</label>
+                <input type="text" formControlName="housingTypeOther" class="form-control" />
+              </div>
+            }
+          </div>
+
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">d3. أي من ترتيبات المعيشة التالية تصف بشكل أفضل وضعك السكني الحالي؟ *</label>
+              <select formControlName="livingArrangement" class="form-control">
+                <option value="">اختر...</option>
+                <option value="free_employer">بالمجان، تقدمة من رب العمل</option>
+                <option value="free_family">مقدم مجاناً من قبل أفراد الأسرة / الأصدقاء (منزل منفصل)</option>
+                <option value="second_home">بيت ملك ثاني</option>
+                <option value="rent_furnished">إيجار مفروش</option>
+                <option value="rent_unfurnished">إيجار غير مفروش</option>
+                <option value="rent_employer">إيجار، يُدفع جزئياً من صاحب العمل</option>
+                <option value="squatting">مصادرة/مقيم دون إذن المالك</option>
+                <option value="guest">الإقامة كضيف (مع أصدقاء، أقرباء) - نفس المنزل</option>
+                <option value="other">غير ذلك، حدد</option>
+              </select>
+            </div>
+            @if (step5Form.get('livingArrangement')?.value === 'other') {
+              <div class="form-group">
+                <label class="field-label-required">غير ذلك، حدد *</label>
+                <input type="text" formControlName="livingArrangementOther" class="form-control" />
+              </div>
+            }
+          </div>
+
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">d5. كم عدد الغرف (باستثناء المطبخ والمراحيض) التي تشغلها أسرتك حالياً في مسكنك الحالي؟ *</label>
+              <input type="number" formControlName="numberOfRooms" class="form-control" min="0" />
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">d6. كم عدد الأسر التي تعيش في المسكن الحالي؟ (احسب العائلة المضيفة) *</label>
+              <input type="number" formControlName="numberOfFamilies" class="form-control" min="1" />
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">d7. ما هو العدد الإجمالي للأفراد الذين يعيشون في هذا المسكن؟ *</label>
+              <input type="number" formControlName="totalIndividuals" class="form-control" min="1" />
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">d8. ما هو المصدر الرئيسي للوقود / الموقد لطهي الطعام في المنزل؟ *</label>
+              <select formControlName="cookingFuel" class="form-control">
+                <option value="">اختر...</option>
+                <option value="primitive">مصدر بدائي (نار مفتوحة، موقد مفتوح، أو موقد تقليدي مغلق - استخدام روث الحيوانات، والخشب)</option>
+                <option value="improved">مصدر مطوّر (موقد يستخدم الكهرباء والغاز والفحم/ الديزل والوقود الحيوي الآخر/ كاز او بابور)</option>
+                <option value="none">لا يوجد منشآت أو مصدر للطهي</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">d9. ما هو المصدر الرئيسي لمياه الشرب لأسرتك؟ *</label>
+              <select formControlName="drinkingWaterSource" class="form-control">
+                <option value="">اختر...</option>
+                <option value="piped">مياه الأنابيب (داخل المسكن أو خارجه)</option>
+                <option value="public_tap">حنفية عامة / ماسورة عمودية</option>
+                <option value="borehole">بئر ارتوازي (مع مضخة)</option>
+                <option value="protected_well">بئر محمي (بئر محفور، نبع محمي، تجميع مياه الأمطار)</option>
+                <option value="distilled">مياه مقطرة</option>
+                <option value="unprotected_well">بئر غير محمي (بئر محفور، نبع غير محمي، تجميع مياه الأمطار)</option>
+                <option value="tanker_truck">شاحنة صهريج</option>
+                <option value="cart_tank">عربة مع خزان صغير</option>
+                <option value="bottled_refill">المياه المعبأة من محلات تكرير المياه</option>
+                <option value="bottled_branded">المياه المعبأة (غالونات و عبوات/قناني مختومة من شركات معروفة)</option>
+                <option value="surface_water">مياه سطحية / نهر</option>
+                <option value="other">غير ذلك، حدد</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">d10. هل لديك براد يعمل؟ *</label>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" formControlName="hasWorkingFridge" value="yes" />
+                  <span>نعم</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" formControlName="hasWorkingFridge" value="no" />
+                  <span>كلا</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">d11. هل لديك نظام تسخين المياه أو سخان للمياه يعمل؟ *</label>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" formControlName="hasWorkingWaterHeater" value="yes" />
+                  <span>نعم</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" formControlName="hasWorkingWaterHeater" value="no" />
+                  <span>كلا</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">d12. ما هي مصادر الطاقة التي يستخدمها منزلك للتدفئة حالياً؟ *</label>
+              <select formControlName="heatingSource" class="form-control">
+                <option value="">اختر...</option>
+                <option value="primitive">مصدر بدائي (نار مفتوحة، موقد مفتوح، أو موقد تقليدي مغلق - استخدام روث الحيوانات، والخشب)</option>
+                <option value="improved">مصدر مطوّر (موقد يستخدم الكهرباء والغاز والفحم/ الديزل والوقود الحيوي الآخر/ كاز او بابور)</option>
+                <option value="none">لا يوجد منشآت أو مصدر للتدفئة</option>
+                <option value="not_needed">لست بحاجة للتدفئة</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">d13. ما هي مصادر الكهرباء لأسرتك؟ *</label>
+              <select formControlName="electricitySource" class="form-control">
+                <option value="">اختر...</option>
+                <option value="public_grid">شبكة الكهرباء من شركة عامة (شركة كهرباء لبنان/شركة خاصة)</option>
+                <option value="private_generator_not_owned">مولد خاص لا تمتلكه الأسرة (متوفر من البلدية أو مؤسسة)</option>
+                <option value="private_generator_owned">مولد خاص تملكه الأسرة</option>
+                <option value="free_from_others">من الأقارب/الأصدقاء/المأوى/جمعية (من دون مقابل)</option>
+                <option value="solar">نظام الطاقة الشمسية</option>
+                <option value="battery_ups">بطارية/UPS فقط بدون ألواح طاقة شمسية</option>
+                <option value="dont_know">لا أعرف</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">d14. عدد ساعات الكهرباء التي حصلت عليها أمس/ آخر 24 ساعة من جميع المصادر؟ *</label>
+              <input type="number" formControlName="electricityHours" class="form-control" min="0" max="24" />
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-group">
+              <label>d15. كم عدد الأمبيرات التي تحصل عليها من المولد الخاص؟</label>
+              <input type="number" formControlName="generatorAmps" class="form-control" min="0" />
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">d16. كم عدد المراحيض الموجودة في مسكنك الحالي؟ *</label>
+              <input type="number" formControlName="numberOfToilets" class="form-control" min="0" />
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">d17. ما نوع المراحيض التي يستخدمها أفراد أسرتك عادةً في محل إقامتك الحالي؟ *</label>
+              <select formControlName="toiletType" class="form-control">
+                <option value="">اختر...</option>
+                <option value="bucket">دلو</option>
+                <option value="flush_western">دافق/حمام فرنجي مع سيفون</option>
+                <option value="pit_tiled">مرحاض عربي - حفرة في الأرض ضمن حمام مبلّط</option>
+                <option value="open_air">في الهواء الطلق</option>
+                <option value="pit_untiled">مرحاض عربي - حفرة في الأرض ضمن حمام غير مبلّط</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">d18. هل تتشارك في استخدام المرحاض/المراحيض حالياً مع أسرة أخرى؟ *</label>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" formControlName="sharesToilet" value="yes" />
+                  <span>نعم</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" formControlName="sharesToilet" value="no" />
+                  <span>كلا</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">d19. هل لدى أسرتك أي نوع من أنواع التأمين الصحي (تأمين خاص، تعاون، ضمان اجتماعي)؟ *</label>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" formControlName="hasHealthInsurance" value="yes" />
+                  <span>نعم</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" formControlName="hasHealthInsurance" value="no" />
+                  <span>كلا</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          @if (step5Form.get('hasHealthInsurance')?.value === 'yes') {
+            <div class="form-card">
+              <div class="form-group">
+                <label class="field-label-required">d20. ما هو نوع التأمين الصحي الرئيسي؟ *</label>
+                <select formControlName="healthInsuranceType" class="form-control">
+                  <option value="">اختر...</option>
+                  <option value="nssf">الصندوق الوطني للضمان الاجتماعي (بما في ذلك الصندوق الاختياري)</option>
+                  <option value="military">الجيش وقوى الأمن الداخلي</option>
+                  <option value="disability_card">بطاقة إعاقة من وزارة الشؤون الإجتماعية</option>
+                  <option value="organization">التأمين الصحي من منظمة أخرى (دولية، منظمة غير حكومية، إلخ)</option>
+                  <option value="mutual_fund">صندوق تعاضد من خلال مؤسسة أو اتحاد</option>
+                  <option value="private">التأمين الخاص</option>
+                  <option value="civil_servants">تعاونية الموظفين العموميين والمدنيين</option>
+                  <option value="dont_know">لا أعرف أي شيء عن تأمينهم الصحي</option>
+                  <option value="other">غير ذلك، حدد</option>
+                </select>
+              </div>
+            </div>
+          }
+
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">d21. كم عدد الهواتف المحمولة العاملة التي يمتلكها الأشخاص في منزلك إجمالاً، بما في ذلك هاتفك؟ *</label>
+              <input type="number" formControlName="numberOfMobilePhones" class="form-control" min="0" />
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">d22. خلال ال 30 يوماً الماضية، هل تلقيت أنت أو أي فرد آخر من أفراد الأسرة أي مساعدة، نقدية أو عينية، من أي مما يلي؟ *</label>
+              <select formControlName="assistanceReceived" class="form-control">
+                <option value="">اختر...</option>
+                <option value="atm_cards">بطاقات الصراف الآلي المستخدمة في أجهزة الصراف الآلي / تمويل BOB من الأمم المتحدة أو المنظمات الإنسانية</option>
+                <option value="western_union">تحويل نقدي عبر ويسترن يونيون من أمان / داعم (الحكومة / برنامج الأغذية العالمي)</option>
+                <option value="food_aid">المساعدات الغذائية (الطرود الغذائية العينية) من برنامج الأغذية العالمي</option>
+                <option value="e_cards">البطاقات الإلكترونية المستخدمة في محلات الأغذية التابعة لبرنامج الأغذية العالمي</option>
+                <option value="disability_allowance">البدل النقدي للأشخاص ذوي الإعاقة</option>
+                <option value="ngo_aid">مساعدة أخرى من جمعيات</option>
+                <option value="none">لا يستفيد من أي مساعدة</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-group">
+              <label>d22a. إذا كانت الإجابة بنعم، هل يمكنك مشاركة رقم الحالة أو رقم بطاقة الإعاقة الشخصية؟ (غير إلزامي)</label>
+              <input type="text" formControlName="caseNumber" class="form-control" />
+            </div>
+          </div>
+
+          <h3 class="subsection-title">القسم هـ - حماية الطفل</h3>
+
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">e1. هل فقدت أسرتكم أي من أطفال الأسرة (أقل من 18 عاماً) نتيجة نزاع جنوب لبنان؟ *</label>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" formControlName="childLostToConflict" value="yes" />
+                  <span>نعم</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" formControlName="childLostToConflict" value="no" />
+                  <span>كلا</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">e2. نتيجة للنزاع في جنوب لبنان، هل قبلتم أي طفل (أقل من 18 سنة) تم فصله أو هو غير مرافق في منزلك؟ *</label>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" formControlName="childSeparatedAccepted" value="yes" />
+                  <span>نعم</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" formControlName="childSeparatedAccepted" value="no" />
+                  <span>كلا</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-group">
+              <label class="field-label-required">e3. هل تظهر على أي من الأطفال (أقل من 18 سنة) في الأسرة أي علامات على زيادة الضائقة النفسية بسبب النزاع؟ *</label>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" formControlName="childPsychologicalDistress" value="yes" />
+                  <span>نعم</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" formControlName="childPsychologicalDistress" value="no" />
+                  <span>كلا</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
           <div class="form-navigation-dual">
             <button class="btn-save" [disabled]="saving()" (click)="saveCurrentSection()">حفظ</button>
             <button class="btn-submit" [disabled]="saving()" (click)="submitForm()">
