@@ -429,9 +429,15 @@
           <div class="form-card">
             <div class="form-group">
               <label class="field-label-required">يوجد في الأسرة فرد على الأقل يعاني من إعاقة حادة أو مرض مزمن*</label>
-              <div class="toggle-buttons">
-                <button type="button" class="toggle-btn" [class.active]="hasDisability() === 'yes'" (click)="setDisability('yes')">نعم</button>
-                <button type="button" class="toggle-btn" [class.active]="hasDisability() === 'no'" (click)="setDisability('no')">كلا</button>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" formControlName="hasDisability" value="yes" />
+                  <span>نعم</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" formControlName="hasDisability" value="no" />
+                  <span>كلا</span>
+                </label>
               </div>
             </div>
           </div>
@@ -827,9 +833,15 @@
           <div class="form-card">
             <div class="form-group">
               <label class="field-label-required">كل أفراد هذه الأسرة يعيشون في نفس المنزل في لبنان:*</label>
-              <div class="toggle-buttons">
-                <button type="button" class="toggle-btn" [class.active]="allLiveInLebanon() === 'yes'" (click)="setAllLiveInLebanon('yes')">نعم</button>
-                <button type="button" class="toggle-btn" [class.active]="allLiveInLebanon() === 'no'" (click)="setAllLiveInLebanon('no')">كلا</button>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" formControlName="allLiveInLebanon" value="yes" />
+                  <span>نعم</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" formControlName="allLiveInLebanon" value="no" />
+                  <span>كلا</span>
+                </label>
               </div>
             </div>
           </div>
